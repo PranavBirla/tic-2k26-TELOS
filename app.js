@@ -10,7 +10,7 @@ db();
 
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -24,25 +24,60 @@ app.get("/addcrop", (req, res) => {
 });
 
 app.post("/addcrop", async (req, res) => {
-    const { cropName, quantity, price} = req.body;
+    const { cropName, quantity, price } = req.body;
 
-        await crop.create({
+    await crop.create({
+        cropName,
+        quantity,
+        price
+    });
+
+
+    console.log("cropName: ", cropName);
+    console.log("quantity: ", quantity);
+    console.log("price: ", price);
+
+    res.redirect("/mylistings");
+});
+
+
+app.get("/editcrop/:id", async (req, res) => {
+    const crop = await cropModel.findById(req.params.id);
+
+    if (!crop) {
+        return res.send("Crop not found ❌");
+    }
+
+    res.render("editcrop", { crop });
+});
+
+app.post("/editcrop/:id", async (req, res) => {
+    try {
+        const { cropName, quantity, price } = req.body;
+
+        await crop.findByIdAndUpdate(req.params.id, {
             cropName,
             quantity,
             price
         });
 
+        res.redirect("/mylistings");
 
-    console.log( "cropName: ", cropName );
-    console.log( "quantity: ", quantity );
-    console.log( "price: ", price );
-
-    res.redirect("/mylistings");
+    } catch (err) {
+        console.log(err);
+        res.send("Error updating crop");
+    }
 });
 
-app.get("/editcrop/:id", async (req, res) => {
-    const crop = await crop.findById(req.params.id);
-    res.render("editcrop", {crop});
+
+
+app.post("/delete/:id", async (req, res) => {
+    try{
+        await crop.findByIdAndDelete(req.params.id);
+        res.redirect("/mylistings");
+    }catch (err) {
+        res.send("Error in deleting crop: ", err);
+    }
 })
 
 app.get("/marketplace", (req, res) => {
@@ -56,7 +91,7 @@ app.get("/cropdetails", (req, res) => {
 
 app.get("/mylistings", async (req, res) => {
     const crops = await crop.find();
-    res.render("myListings", {crops})
+    res.render("myListings", { crops })
 });
 
 
