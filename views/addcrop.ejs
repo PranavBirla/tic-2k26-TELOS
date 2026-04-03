@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link rel="stylesheet" href="/output.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div class="flex items-center">
+        <form class="flex flex-col m-4" action="/addcrop" method="POST">
+            <label for="">Crop Name</label>
+            <input class="bg-gray-100 w-1/2" type="text" name="cropname" placeholder="Crop Name">
+            <div class="flex">
+                <div>
+                    <label class="block">Quantity</label>
+                    <input class="bg-gray-100" type="number" name="cropquantity" placeholder="Crop Quantity">
+                </div>
+                <div>
+                    <label for="">Price</label>
+                    <input type="number" name="price" placeholder="Price">
+
+                </div>
+            </div>
+
+            <input type="submit" value="Add Crop">
+        </form>
+    </div>
+</body>
+
+</html>
