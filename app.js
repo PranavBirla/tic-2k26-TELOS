@@ -20,10 +20,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/addcrop", (req, res) => {
-    res.render("addcrop");
-});
-
-app.get("/addcrop2", (req, res) => {
     res.render("addcroptest2");
 });
 
@@ -40,13 +36,50 @@ app.post("/addcrop", async (req, res) => {
     console.log( "cropName: ", cropName );
     console.log( "quantity: ", quantity );
     console.log( "price: ", price );
+
+    res.redirect("/mylistings");
+});
+
+app.get("/marketplace", (req, res) => {
+    res.render("marketplace");
+});
+
+app.get("/cropdetails", (req, res) => {
+    res.render("cropdetails");
+});
+
+
+app.get("/mylistings", async (req, res) => {
+    const crops = await crop.find();
+    res.render("myListings", {crops})
 });
 
 
 
-app.get("/mylistings", (req, res) => {
-    res.render("mylistings");
-});
+
+
+
+
+
+
+
+
+app.get("signup", (req, res) => {
+    res.render("signup");
+})
+
+app.get("/login", (req, res) => {
+    res.render("login");
+})
+
+app.post("/signup", async (req, res, next) => {
+    
+})
+
+
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
