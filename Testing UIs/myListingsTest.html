@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRISHIQ | Pro Marketplace</title>
+    <script src="https://tailwindcss.com"></script>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link href="https://googleapis.com" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#f0fdf4', 500: '#16a34a', 600: '#15803d', 900: '#14532d' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+    <!-- MINIMAL TICKER -->
+    <div class="bg-brand-900 text-white text-[10px] py-1 text-center font-medium uppercase tracking-widest">
+        Live Mandi: Onion ₹18/kg ↑ | Tomato ₹24/kg ↓ | Potato ₹15/kg —
+    </div>
+
+    <!-- COMPACT NAV -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 bg-brand-500 rounded-lg flex items-center justify-center text-white">
+                    <i class="ri-leaf-fill"></i>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-brand-900">KRISHIQ</span>
+            </div>
+
+            <div class="hidden sm:flex flex-1 max-w-sm mx-8 relative">
+                <i class="ri-search-line absolute left-3 top-2 text-slate-400"></i>
+                <input type="text" placeholder="Search crops..." class="w-full pl-9 pr-4 py-1.5 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-brand-500/20 outline-none">
+            </div>
+
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-semibold text-slate-500 hidden md:block"><i class="ri-map-pin-fill text-brand-500"></i> Pune</span>
+                <div class="w-8 h-8 rounded-full bg-slate-200 border border-white shadow-sm overflow-hidden">
+                    <img src="https://ui-avatars.com" alt="User">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- FEED -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <div class="flex items-baseline justify-between mb-8">
+            <h1 class="text-xl font-extrabold text-slate-900">Live Marketplace</h1>
+            <p class="text-xs text-slate-400 font-medium uppercase">Direct from Source</p>
+        </div>
+
+        <!-- GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            <!-- PRODUCT CARD -->
+            <div class="group bg-white rounded-3xl border border-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 transition-all duration-500 overflow-hidden flex flex-col">
+                
+                <!-- Image -->
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://unsplash.com" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 flex gap-2">
+                        <span class="bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-[10px] font-bold text-brand-600 shadow-sm">FRESH</span>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="p-5 flex-1 flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="font-bold text-slate-900">Organic Tomatoes</h3>
+                            <p class="text-[10px] font-medium text-slate-400 uppercase tracking-tighter">By Ravi Patel • 4.9 <i class="ri-star-fill text-yellow-400"></i></p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-lg font-black text-brand-600">₹28</span><span class="text-[10px] text-slate-400">/kg</span>
+                        </div>
+                    </div>
+
+                    <!-- Compact Data -->
+                    <div class="flex items-center gap-4 mt-2 mb-5">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase">Distance</span>
+                            <span class="text-xs font-semibold text-slate-700 leading-none">8.2 km</span>
+                        </div>
+                        <div class="w-px h-6 bg-slate-100"></div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase">Stock</span>
+                            <span class="text-xs font-semibold text-slate-700 leading-none">340 kg</span>
+                        </div>
+                    </div>
+
+                    <!-- UPDATED BUTTONS -->
+                    <div class="mt-auto flex flex-col gap-2">
+                        <button class="w-full bg-brand-600 text-white py-3 rounded-2xl text-xs font-bold hover:bg-brand-900 transition-colors shadow-lg shadow-brand-500/20 active:scale-95 duration-150">
+                            BUY NOW
+                        </button>
+                        <button class="w-full bg-slate-50 text-slate-600 py-2.5 rounded-2xl text-xs font-bold border border-slate-100 hover:bg-slate-100 transition-colors">
+                            VIEW DETAILS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2 (Duplicate for Preview) -->
+            <div class="group bg-white rounded-3xl border border-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 transition-all duration-500 overflow-hidden flex flex-col">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://unsplash.com" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="p-5 flex-1 flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="font-bold text-slate-900">Red Onions</h3>
+                            <p class="text-[10px] font-medium text-slate-400 uppercase tracking-tighter">By Suresh Kumar • 4.5 <i class="ri-star-fill text-yellow-400"></i></p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-lg font-black text-brand-600">₹22</span><span class="text-[10px] text-slate-400">/kg</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 mt-2 mb-5">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase">Distance</span>
+                            <span class="text-xs font-semibold text-slate-700 leading-none">14 km</span>
+                        </div>
+                        <div class="w-px h-6 bg-slate-100"></div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase">Stock</span>
+                            <span class="text-xs font-semibold text-slate-700 leading-none">1.2 Ton</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto flex flex-col gap-2">
+                        <button class="w-full bg-brand-600 text-white py-3 rounded-2xl text-xs font-bold hover:bg-brand-900 transition-colors shadow-lg shadow-brand-500/20 active:scale-95 duration-150">
+                            BUY NOW
+                        </button>
+                        <button class="w-full bg-slate-50 text-slate-600 py-2.5 rounded-2xl text-xs font-bold border border-slate-100 hover:bg-slate-100 transition-colors">
+                            VIEW DETAILS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
