@@ -1,0 +1,27 @@
+{
+  "name": "tic-2k26-telos",
+  "version": "1.0.0",
+  "description": "Technocrats Innovation Challenge - 2k26",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PranavBirla/tic-2k26-TELOS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PranavBirla/tic-2k26-TELOS/issues"
+  },
+  "homepage": "https://github.com/PranavBirla/tic-2k26-TELOS#readme",
+  "dependencies": {
+    "dotenv": "^17.4.0",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.3.3"
+  }
+}
