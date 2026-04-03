@@ -39,7 +39,7 @@
     <h2 class="text-2xl font-semibold">Edit Crop</h2>
     <p class="text-gray-500 text-sm mt-1 mb-6"></p>
 
-    <form method="POST" action="/editcrop/<%crop._id%>" class="grid md:grid-cols-3 gap-6">
+    <form method="POST" action="/editcrop/<%= crop._id %>" class="grid md:grid-cols-3 gap-6">
 
       <div class="md:col-span-2 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
         <h3 class="text-sm font-semibold mb-4">Crop Information</h3>
@@ -47,14 +47,14 @@
         <div class="mb-4">
           <label class="text-xs text-gray-500">Crop Name</label>
           <input name="cropName" type="text" required
-            class="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-green-500 outline-none shadow"
+            class="w-full mt-1 px-3 py-2 border bg-gray-200 border-gray-200 rounded-lg focus:ring-1 focus:ring-green-500 outline-none shadow"
            readonly placeholder="<%= crop.cropName %>">
         </div>
 
         <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label class="text-xs text-gray-500">Category</label>
-            <select name="category" required  readonly
+            <select name="category" readonly
               class="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-green-500 shadow">
               <option>Grains</option>
               <option>Vegetables</option>
@@ -63,9 +63,7 @@
           </div>
 
           <div>
-            <label class="text-xs text-gray-500" readonly >Harvest Date</label>
-            <input name="harvestDate" type="date" required
-              class="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 shadow">
+            <h3>Harvest Date - <%= crop.harvestDate %></h3>
           </div>
         </div>
 
@@ -74,14 +72,14 @@
             <label class="text-xs text-gray-500">Price (₹)</label>
             <input name="price"  type="number" required
               class="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 shadow"
-              placeholder="0">
+              placeholder="<%= crop.price %>">
           </div>
 
           <div>
             <label class="text-xs text-gray-500">Quantity (kg)</label>
-            <input name="quantity" readonly type="number" required
+            <input name="quantity" type="number" required
               class="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 shadow"
-              placeholder="500">
+              placeholder="<%= crop.quantity %>">
           </div>
         </div>
 

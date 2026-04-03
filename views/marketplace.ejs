@@ -16,8 +16,7 @@
         <div class="space-x-6 text-sm  flex items-center">
 
 
-            <span class="text-gray-500 cursor-pointer hover:text-green-500 transition-colors">Cart</span>
-            <span class="text-gray-500 cursor-pointer hover:text-green-500 transition-colors">Orders</span>
+            <a href="/buyerdeals">Deals</a>
             <div class="relative">
                 <img src="https://i.pravatar.cc/40"
                     class="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300">
@@ -47,7 +46,7 @@
 
 
 
-            <% crops.forEach(crop=> { %>
+            <% crops.forEach( crop=> { %>
 
                 <div
                     class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
@@ -97,10 +96,10 @@
                             ₹<%= crop.quantity %> Kg
                         </div>
 
-                        <button
+                        <a href="/cropdetails/<%= crop._id %>"
                             class="w-full bg-[#56d408] text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">
                             View Details
-                        </button>
+                        </a>
 
                     </div>
                 </div>
