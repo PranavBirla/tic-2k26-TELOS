@@ -49,12 +49,36 @@ app.get("/cropdetails", (req, res) => {
 });
 
 
-
-
 app.get("/mylistings", async (req, res) => {
     const crops = await crop.find();
     res.render("myListings", {crops})
 });
+
+
+
+
+
+
+
+
+
+
+
+app.get("signup", (req, res) => {
+    res.render("signup");
+})
+
+app.get("/login", (req, res) => {
+    res.render("login");
+})
+
+app.post("/signup", async (req, res, next) => {
+    
+})
+
+
+
+
 
 
 app.listen(PORT, () => {
