@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRISHIQ Marketplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f9fafb] text-gray-800 font-sans">
+
+    <!-- NAVBAR -->
+    <nav class="bg-[#e8f8e1] px-[5%] py-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
+        <div class="text-2xl font-bold text-[#1b4332] tracking-tight">KRISHIQ</div>
+        <div class="space-x-6 text-sm font-medium">
+            <span class="cursor-pointer hover:text-[#56d408] transition-colors">Home</span>
+            <span class="cursor-pointer hover:text-[#56d408] transition-colors">Marketplace</span>
+            <span class="cursor-pointer hover:text-[#56d408] transition-colors">Orders</span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-3">Buy Crops Directly From Farmers</h1>
+        <p class="text-gray-500 mb-8">Fair Prices • Fresh Harvest • No Middlemen</p>
+        
+        <div class="flex justify-center">
+            <input type="text" 
+                   placeholder="Search crops like wheat, tomatoes, onions..." 
+                   class="w-full max-w-lg px-6 py-4 rounded-full border border-gray-200 shadow-md focus:outline-none focus:ring-2 focus:ring-[#56d408] focus:border-transparent transition-all">
+        </div>
+    </div>
+
+    <!-- NEARBY CROPS -->
+    <div class="max-w-7xl mx-auto px-6 pb-20">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold">Nearby Crops</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <!-- CARD 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b" class="w-full h-48 object-cover" alt="Wheat">
+                <div class="p-5">
+                    <div class="text-lg font-bold mb-1">Premium Wheat</div>
+                    <div class="text-xs text-gray-500 mb-3">👨‍🌾 Rajesh Kumar</div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-4">
+                        <span>⭐ 4.8</span>
+                        <span>📍 12 km</span>
+                    </div>
+                    <div class="text-[#56d408] text-lg font-bold mb-4">₹2400 / Quintal</div>
+                    <button class="w-full bg-[#56d408] text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">View Details</button>
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                <img src="https://images.unsplash.com/photo-1590779033100-9f60705a2f3b" class="w-full h-48 object-cover" alt="Tomatoes">
+                <div class="p-5">
+                    <div class="text-lg font-bold mb-1">Fresh Tomatoes</div>
+                    <div class="text-xs text-gray-500 mb-3">👨‍🌾 Amit Singh</div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-4">
+                        <span>⭐ 4.6</span>
+                        <span>📍 8 km</span>
+                    </div>
+                    <div class="text-[#56d408] text-lg font-bold mb-4">₹40 / Kg</div>
+                    <button class="w-full bg-[#56d408] text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">View Details</button>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2" class="w-full h-48 object-cover" alt="Potatoes">
+                <div class="p-5">
+                    <div class="text-lg font-bold mb-1">Organic Potatoes</div>
+                    <div class="text-xs text-gray-500 mb-3">👨‍🌾 Lakshmi Devi</div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-4">
+                        <span>⭐ 4.7</span>
+                        <span>📍 6 km</span>
+                    </div>
+                    <div class="text-[#56d408] text-lg font-bold mb-4">₹18 / Kg</div>
+                    <button class="w-full bg-[#56d408] text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">View Details</button>
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                <img src="https://images.unsplash.com/photo-1592928302636-c83cf1e1c887" class="w-full h-48 object-cover" alt="Chilli">
+                <div class="p-5">
+                    <div class="text-lg font-bold mb-1">Green Chilli</div>
+                    <div class="text-xs text-gray-500 mb-3">👨‍🌾 Sunil Patil</div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-4">
+                        <span>⭐ 4.5</span>
+                        <span>📍 14 km</span>
+                    </div>
+                    <div class="text-[#56d408] text-lg font-bold mb-4">₹60 / Kg</div>
+                    <button class="w-full bg-[#56d408] text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">View Details</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
