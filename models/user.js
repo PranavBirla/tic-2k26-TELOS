@@ -5,9 +5,9 @@ const userSchema = new mongoose.Schema({
     email: String,
     contact: Number,
     password: String,
-    rol
+    
 });
 
-const crop = mongoose.model("crop", cropSchema);
+const crop = mongoose.model("user", userSchema);
 
-module.exports = crop;
+module.exports = user;

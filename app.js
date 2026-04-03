@@ -40,6 +40,11 @@ app.post("/addcrop", async (req, res) => {
     res.redirect("/mylistings");
 });
 
+app.get("/editcrop/:id", async (req, res) => {
+    const crop = await crop.findById(req.params.id);
+    res.render("editcrop", {crop});
+})
+
 app.get("/marketplace", (req, res) => {
     res.render("marketplace");
 });
@@ -73,7 +78,7 @@ app.get("/login", (req, res) => {
 })
 
 app.post("/signup", async (req, res, next) => {
-    
+
 })
 
 
