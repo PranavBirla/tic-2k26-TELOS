@@ -4,7 +4,6 @@ const path = require("path");
 const app = express();
 const db = require("./config/mongoose-connection");
 const cropModel = require("./models/crop");
-const crop = require("./models/crop");
 
 db();
 
@@ -26,16 +25,11 @@ app.get("/addcrop", (req, res) => {
 app.post("/addcrop", async (req, res) => {
     const { cropName, quantity, price } = req.body;
 
-    await crop.create({
+    await cropModel.create({
         cropName,
         quantity,
         price
     });
-
-
-    console.log("cropName: ", cropName);
-    console.log("quantity: ", quantity);
-    console.log("price: ", price);
 
     res.redirect("/mylistings");
 });
@@ -55,7 +49,7 @@ app.post("/editcrop/:id", async (req, res) => {
     try {
         const { cropName, quantity, price } = req.body;
 
-        await crop.findByIdAndUpdate(req.params.id, {
+        await cropModel.findByIdAndUpdate(req.params.id, {
             cropName,
             quantity,
             price
@@ -73,24 +67,31 @@ app.post("/editcrop/:id", async (req, res) => {
 
 app.post("/delete/:id", async (req, res) => {
     try{
-        await crop.findByIdAndDelete(req.params.id);
+        await cropModel.findByIdAndDelete(req.params.id);
         res.redirect("/mylistings");
     }catch (err) {
         res.send("Error in deleting crop: ", err);
     }
 })
 
-app.get("/marketplace", (req, res) => {
-    res.render("marketplace");
+app.get("/marketplace", async (req, res) => {
+    const crops = await cropModel.find();
+    res.render("marketplace", { crops });
 });
 
-app.get("/cropdetails", (req, res) => {
-    res.render("cropdetails");
+app.get("/cropdetails/:id", async (req, res) => {
+    
+        const crop = await cropModel.findById(req.params.id);
+        if (!crop) {
+            return res.send("Crop not found");
+        }
+        res.render("cropdetails", { crop });
+    
 });
 
 
 app.get("/mylistings", async (req, res) => {
-    const crops = await crop.find();
+    const crops = await cropModel.find();
     res.render("myListings", { crops })
 });
 
