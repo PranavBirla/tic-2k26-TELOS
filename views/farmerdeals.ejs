@@ -96,15 +96,14 @@
     .price-down { color: #EF4444; }
   </style>
 </head>
-<body class="min-h-screen bg-[#F9FAFB]">
+<body class="min-h-screen bg-gray-200">
 
-  <%
-const activeDeals = deals.filter(d => d.status === "accepted");
-const pendingDeals = deals.filter(d => d.status === "pending");
-const rejectedDeals = deals.filter(d => d.status === "rejected");
-%>
+  <% const activeDeals = deals.filter(d => d.status === "accepted"); %>
+  <% const pendingDeals = deals.filter(d => d.status === "pending"); %>
+  <% const rejectedDeals = deals.filter(d => d.status === "rejected"); %>
 
-  <nav class="sticky top-0 z-50 navbar-blur bg-white/90 border-b border-[#E5E7EB] shadow-sm">
+
+  <nav class="items-center flex sticky m-10 top-5 my-5 rounded-full w-9/12 mx-auto z-50 navbar-blur bg-white/90 border-b border-[#E5E7EB] shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
 
@@ -331,6 +330,7 @@ const rejectedDeals = deals.filter(d => d.status === "rejected");
   <div class="grid grid-cols-2 gap-3 mb-4">
     <p>Quantity: <%= deal.quantity %> kg</p>
     <p>Offered: ₹<%= deal.offeredPrice %>/kg</p>
+    
   </div>
 
 </div>
@@ -684,26 +684,7 @@ const rejectedDeals = deals.filter(d => d.status === "rejected");
 
   </main>
 
-  <!-- ════════════════════════════════════════════ -->
-  <!-- FOOTER                                        -->
-  <!-- ════════════════════════════════════════════ -->
-  <footer class="mt-12 border-t border-[#E5E7EB] bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-2">
-          <div class="w-6 h-6 logo-dot rounded-md flex items-center justify-center">
-            <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17 8C8 10 5.9 16.17 3.82 21C7.3 18 13.62 16 17 8zM21 3c-3.81 4-9.12 5-13 6-1.84.48-3.42 1.32-4.79 2.37A11.53 11.53 0 0 0 2.5 14c1.62-1.08 3.48-1.81 5.5-2a18.94 18.94 0 0 1 7 1.06C17.41 14.5 19.5 16.36 20 19c1.1-2.5 1.5-5 .78-7.5.41-.36.82-.74 1.22-1.13V3z"/>
-            </svg>
-          </div>
-          <span class="font-heading text-sm font-semibold text-[#111827]">Krishiq</span>
-          <span class="text-[#9CA3AF] text-xs">— Deal Management</span>
-        </div>
-        <p class="text-xs text-[#9CA3AF]">© 2025 Krishiq. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
+ 
   <!-- Tab switching script -->
   <script>
     function switchTab(tab) {

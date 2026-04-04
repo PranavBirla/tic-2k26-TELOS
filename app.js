@@ -252,6 +252,8 @@ app.get("/logout", isLoggedIn, (req, res) => {
 });
 
 app.get("/profile", isLoggedIn, async (req, res) => {
+
+
     if (!req.session.userId) {
         return res.redirect("/login");
     }
@@ -260,6 +262,22 @@ app.get("/profile", isLoggedIn, async (req, res) => {
 
     res.render("profile", { user });
 });
+
+app.get("/buyerprofile", isLoggedIn, isBuyer, async (req, res) => {
+    const farmerId = "demoFarmer";
+    const buyerId = "demoBuyer";
+    const deals = await dealModel.find({ buyerId }).populate("cropId");
+
+    if (!req.session.userId) {
+        return res.redirect("/login")
+    }
+
+    let user = await userModel.findById(req.session.userId);
+    
+    res.render("buyerProfile", { user, deals });
+})
+
+
 
 function isLoggedIn(req, res, next) {
     if (!req.session.userId) {
@@ -286,6 +304,7 @@ function isBuyer(req, res, next) {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
 
 
 
