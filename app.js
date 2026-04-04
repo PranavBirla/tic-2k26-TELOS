@@ -85,7 +85,7 @@ app.post("/delete/:id", isLoggedIn, async(req, res) => {
 })
 
 app.get("/marketplace", isLoggedIn, isBuyer, async(req, res) => {
-    const crops = await cropModel.find();
+    const crops = await cropModel.find().sort({ createdAt: -1 });
     res.render("marketplace", { crops });
 });
 
@@ -102,7 +102,7 @@ app.get("/cropdetails/:id", async(req, res) => {
 
 
 app.get("/mylistings", isLoggedIn, isFarmer, async(req, res) => {
-    const crops = await cropModel.find();
+    const crops = await cropModel.find().sort({ createdAt: -1 });
     res.render("myListings", { crops })
 });
 
@@ -117,7 +117,7 @@ app.get("/makedeal/:cropId", async(req, res) => {
 app.get("/buyerdeals", isLoggedIn, isBuyer, async(req, res) => {
     const farmerId = "demoFarmer";
     const buyerId = "demoBuyer";
-    const deals = await dealModel.find({ buyerId }).populate("cropId");
+    const deals = await dealModel.find({ buyerId }).populate("cropId").sort({ createdAt: -1 });
 
     res.render("buyerdeals", { deals });
 })
@@ -125,7 +125,7 @@ app.get("/buyerdeals", isLoggedIn, isBuyer, async(req, res) => {
 app.get("/farmerdeals", isLoggedIn, isFarmer, async(req, res) => {
     const farmerId = "demoFarmer";
 
-    const deals = await dealModel.find({ farmerId }).populate("cropId");
+    const deals = await dealModel.find({ farmerId }).populate("cropId").sort({ createdAt: -1 });
 
     res.render("farmerdeals", { deals });
 })
