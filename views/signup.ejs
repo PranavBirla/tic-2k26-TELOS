@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - KRISHIQ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex">
+
+
+  <div class="hidden md:block w-1/2 h-screen">
+    <img src="https://lens.usercontent.google.com/banana?agsi=CmdnbG9iYWw6OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAwZWI6MTo4MmFjODc2OTJmNjAyOTYyOjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAxODMzYWYwMzM2ODowMDA2NGU5ZGFhNDlkZmFmEAIYAQ==" class="w-full h-full object-cover" alt="Farmer">
+  </div>
+
+  <div class="w-full md:w-1/2 flex items-center justify-center relative">
+
+
+    <div class="absolute top-6 right-6 text-sm">
+      Already have an account?
+      <a href="/login" class="font-medium hover:underline">Log in</a>
+    </div>
+
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md 
+                transform transition-all duration-300 hover:scale-95 hover:shadow-2xl">
+
+
+    <div class="flex flex-col items-center justify-center mb-6">
+      <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+        <img src="images/logo.png" class="w-full h-full object-cover scale-125">
+      </div>
+      <h1 class="text-xl text-green-700 font-bold">KRISHIQ</h1>
+    </div>
+
+      <!-- <h2 class="text-2xl font-semibold mb-6">Create Account</h2> -->
+
+
+      <form action="/signup" method="POST" class="space-y-4">
+
+   
+        <input 
+          type="text" 
+          name="username" 
+          placeholder="Full Name" 
+          required
+          class="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-500"
+        >
+
+
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Email" 
+          required
+          class="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-500"
+        >
+
+     
+        <input 
+          type="password" 
+          name="password" 
+          placeholder="Password" 
+          required
+          class="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-500"
+        >
+
+     
+        <div class="flex gap-4">
+
+          <input 
+            type="contact" 
+            name="contact" 
+            placeholder="Ph. no." 
+            required
+            class="w-1/2 border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-500"
+          >
+
+          <input 
+            type="location" 
+            name="location" 
+            placeholder="Location" 
+            required
+            class="w-1/2 border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-500"
+          >
+
+        </div>
+
+     
+        <div>
+          <p class="text-sm text-gray-600 mb-2">Select Role:</p>
+
+          <div class="flex gap-6">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="role" value="farmer" required>
+              Farmer
+            </label>
+
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="role" value="buyer">
+              Buyer
+            </label>
+          </div>
+        </div>
+
+      
+        <button 
+          type="submit"
+          class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition"
+        >
+          Sign Up
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+</body>
+</html>

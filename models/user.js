@@ -5,9 +5,13 @@ const userSchema = new mongoose.Schema({
     email: String,
     contact: Number,
     password: String,
-    
+    location: String,
+    role: {
+        type: String,
+        enum: ["farmer", "buyer"]
+    }
 });
 
-const crop = mongoose.model("user", userSchema);
+const user = mongoose.model("user", userSchema);
 
 module.exports = user;

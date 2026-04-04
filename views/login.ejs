@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login - KRISHIQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-cover bg-center"
+  style="background-image:url('https://images.pexels.com/photos/31322684/pexels-photo-31322684.jpeg');">
+
+
+  <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+
+
+  <div
+    class="relative bg-white p-6 rounded-xl shadow-xl w-[90%] sm:w-[80%] md:w-full max-w-md transform transition duration-300 hover:scale-95">
+
+
+    <div class="flex flex-col items-center justify-center mb-6">
+      <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+        <img src="images/logo.png" class="w-full h-full object-cover scale-125">
+      </div>
+      <h1 class="text-xl text-green-700 font-bold">KRISHIQ</h1>
+    </div>
+
+
+
+
+
+    <form action="/login" method="POST" class="space-y-4">
+
+      <input type="email" name="email" placeholder="Email" required
+        class="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-500">
+
+      <input type="password" name="password" placeholder="Password" required
+        class="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-500">
+
+      <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">
+        Login
+      </button>
+      <div class="h-[1px] bg-black"></div>
+      <div class="flex gap-10 items-center">
+        <p >No account ?</p>
+        <a href="" class="bg-gray-300 p-2 rounded-md text-black font-medium m-2 hover:text-blue-700">Create New Account</a>
+      </div>
+    </form>
+
+  </div>
+
+</body>
+
+</html>

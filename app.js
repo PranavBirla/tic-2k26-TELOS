@@ -5,6 +5,8 @@ const app = express();
 const db = require("./config/mongoose-connection");
 const cropModel = require("./models/crop");
 const dealModel = require("./models/deal");
+const userModel = require("./models/user");
+const session = require("express-session")
 
 db();
 
@@ -13,47 +15,54 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
+app.use(session({
+    secret: "krishiq-secret",
+    resave: false,
+    saveUninitialized: true
+}));
 
 
 app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/addcrop", (req, res) => {
+app.get("/addcrop", isLoggedIn, isFarmer, (req, res) => {
     res.render("addcrop");
 });
 
-app.post("/addcrop", async (req, res) => {
-    const { cropName, quantity, price } = req.body;
+app.post("/addcrop", isLoggedIn, isFarmer, async(req, res) => {
+    const { cropName, quantity, price, farmerId } = req.body;
 
     await cropModel.create({
         cropName,
         quantity,
-        price
+        price,
+        farmerId: req.session.userId
     });
 
     res.redirect("/mylistings");
 });
 
 
-app.get("/editcrop/:id", async (req, res) => {
+app.get("/editcrop/:id", isLoggedIn, isFarmer, async(req, res) => {
     const crop = await cropModel.findById(req.params.id);
 
     if (!crop) {
-        return res.send("Crop not found ❌");
+        return res.send("Crop not found");
     }
 
     res.render("editcrop", { crop });
 });
 
-app.post("/editcrop/:id", async (req, res) => {
+app.post("/editcrop/:id", isLoggedIn, isFarmer, async(req, res) => {
     try {
         const { cropName, quantity, price } = req.body;
 
-        await cropModel.findByIdAndUpdate(req.params.id, {
+        await cropModel.findByIdAndUpdate(req.session.id, {
             cropName,
             quantity,
-            price
+            price,
+            farmerId: "demoFarmer"
         });
 
         res.redirect("/mylistings");
@@ -66,105 +75,129 @@ app.post("/editcrop/:id", async (req, res) => {
 
 
 
-app.post("/delete/:id", async (req, res) => {
-    try{
+app.post("/delete/:id", isLoggedIn, async(req, res) => {
+    try {
         await cropModel.findByIdAndDelete(req.params.id);
         res.redirect("/mylistings");
-    }catch (err) {
+    } catch (err) {
         res.send("Error in deleting crop: ", err);
     }
 })
 
-app.get("/marketplace", async (req, res) => {
+app.get("/marketplace", isLoggedIn, isBuyer, async(req, res) => {
     const crops = await cropModel.find();
     res.render("marketplace", { crops });
 });
 
-app.get("/cropdetails/:id", async (req, res) => {
-    
-        const crop = await cropModel.findById(req.params.id);
-        if (!crop) {
-            return res.send("Crop not found");
-        }
-        res.render("cropdetailwithdeal", { crop });
-    
+app.get("/cropdetails/:id", async(req, res) => {
+
+    const crop = await cropModel.findById(req.params.id);
+    if (!crop) {
+        return res.send("Crop not found");
+    }
+    res.render("cropdetailwithdeal", { crop });
+
 });
 
 
 
-app.get("/mylistings", async (req, res) => {
+app.get("/mylistings", isLoggedIn, isFarmer, async(req, res) => {
     const crops = await cropModel.find();
     res.render("myListings", { crops })
 });
 
-app.get("/makedeal/:cropId", async (req, res) => {
+app.get("/makedeal/:cropId", async(req, res) => {
     const crop = await cropModel.findById(req.params.cropId);
-    res.render("makedeal", { cropId:req.params.cropId, crop})
-})
+    res.render("makedeal", { cropId: req.params.cropId, crop })
+});
 
 
-app.get("/buyerdeals", async (req, res) => {
+
+
+app.get("/buyerdeals", isLoggedIn, isBuyer, async(req, res) => {
     const farmerId = "demoFarmer";
-    const buyerId = "demoBuyer"
-    const deals = await dealModel.find({buyerId}).populate("cropId");
+    const buyerId = "demoBuyer";
+    const deals = await dealModel.find({ buyerId }).populate("cropId");
 
-    res.render("buyerdeals", { deals});
+    res.render("buyerdeals", { deals });
 })
 
-app.get("/farmerdeals", async (req, res) => {
+app.get("/farmerdeals", isLoggedIn, isFarmer, async(req, res) => {
     const farmerId = "demoFarmer";
 
-    const deals = await dealModel.find({farmerId}).populate("cropId");
+    const deals = await dealModel.find({ farmerId }).populate("cropId");
 
-    res.render("farmerdeals", { deals});
+    res.render("farmerdeals", { deals });
 })
 
 
 
 
-app.post("/deal/:cropId", async (req, res) => {
-    try{
-        const {  offeredPrice, quantity } = req.body;
+app.post("/deal/:cropId", isLoggedIn, async(req, res) => {
+    try {
+        const { offeredPrice, quantity } = req.body;
         const cropData = await cropModel.findById(req.params.cropId);
 
         await dealModel.create({
             cropId: cropData._id,
             offeredPrice,
             quantity,
-            farmerId: cropData.farmerId,
+            farmerId: "demoFarmer",
             buyerId: "demoBuyer",
             status: "pending"
         })
         res.redirect("/buyerdeals");
         console.log("PRICE:", offeredPrice); // 🔥 ADD THIS
-    }catch (err) {
+    } catch (err) {
         console.log(err);
         res.send("Error creating deal", err);
     }
-})
+});
 
-app.post("/deal/accept/:id", async (req, res) => {
+app.post("/deal/direct/:cropId", isLoggedIn, isBuyer, async(req, res) => {
+    try {
+        const cropData = await cropModel.findById(req.params.cropId);
+
+        await dealModel.create({
+            cropId: cropData._id,
+            farmerId: cropData.farmerId,
+            buyerId: "demoBuyer",
+            offeredPrice: cropData.price,
+            quantity: cropData.quantity,
+
+            status: "pending"
+        });
+
+        res.redirect("/buyerdeals");
+
+    } catch (err) {
+        console.log(err);
+        res.send("Error creating deal");
+    }
+});
+
+app.post("/deal/accept/:id", isLoggedIn, isFarmer, async(req, res) => {
     await dealModel.findByIdAndUpdate(req.params.id, { status: "accepted" });
     res.redirect("/farmerdeals")
 });
 
-app.post("/deal/reject/:id", async (req, res) => {
+app.post("/deal/reject/:id", isLoggedIn, isFarmer, async(req, res) => {
     await dealModel.findByIdAndUpdate(req.params.id, { status: "rejected" });
     res.redirect("/farmerdeals")
 });
 
-app.post("/deletebuyerdeal/:id", async (req, res) => {
-    try{
+app.post("/deletebuyerdeal/:id", isLoggedIn, isBuyer, async(req, res) => {
+    try {
         await dealModel.findByIdAndDelete(req.params.id);
         res.redirect("/buyerdeals");
-    }catch (err) {
+    } catch (err) {
         res.send("Error in deleting deal: ", err);
     };
 })
 
 
 
-app.get("signup", (req, res) => {
+app.get("/signup", (req, res) => {
     res.render("signup");
 })
 
@@ -172,16 +205,109 @@ app.get("/login", (req, res) => {
     res.render("login");
 })
 
-app.post("/signup", async (req, res, next) => {
+app.post("/signup", async (req, res) => {
+    const { username, email, contact, location, password, role  } = req.body;
 
-})
+    const user = await userModel.create({
+        username,
+        email,
+        contact,
+        location,
+        password,
+        role
+    });
 
+    req.session.userId = user._id;
+    req.session.role = user.role;
 
+    if (user.role === "farmer") {
+        res.redirect("/mylistings");
+    } else {
+        res.redirect("/marketplace");
+    }
+});
 
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
 
+    const user = await userModel.findOne({ email, password });
 
+    if (!user) {
+        return res.send("Invalid credentials");
+    }
+
+    req.session.userId = user._id;
+    req.session.role = user.role;
+
+    if (user.role === "farmer") {
+        res.redirect("/mylistings");
+    } else {
+        res.redirect("/marketplace");
+    }
+});
+
+app.get("/frontpage", (req, res) => {
+    res.render("frontpage");
+});
+
+app.get("/logout", isLoggedIn, (req, res) => {
+    req.session.destroy();
+    res.redirect("/login");
+});
+
+app.get("/profile", isLoggedIn, async (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+    let user = await userModel.findById(req.session.userId);
+
+    res.render("profile", { user });
+});
+
+function isLoggedIn(req, res, next) {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    next();
+};
+
+function isFarmer(req, res, next) {
+    if (req.session.role !== "farmer") {
+        return res.send("Access denied");
+    }
+    next();
+}
+
+function isBuyer(req, res, next) {
+    if (req.session.role !== "buyer") {
+        return res.send("Access denied");
+    }
+    next();
+}
+
+app.get("/preview/:page", (req, res) => {
+    console.log("Previewing:", req.params.page);
+
+    res.render(req.params.page, {
+        deals: [],
+        crops: [],
+        crop: {},
+        user: {}
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
 
