@@ -22,6 +22,33 @@ app.use(session({
 }));
 
 
+const axios = require("axios");
+
+app.post("/predict-price", async (req, res) => {
+    const { cropName } = req.body;
+
+    try {
+        const response = await axios.post("http://127.0.0.1:8000/predict", {
+            crop_name: cropName,
+            lat: 23.2599,
+            lon: 77.4126
+        });
+
+        res.json(response.data);   // 🔥 IMPORTANT (NOT render)
+
+    } catch (err) {
+        console.log(err.response?.data || err.message);
+
+        res.status(500).json({
+            error: err.response?.data?.detail || "ML error"
+        });
+    }
+});
+
+app.get("/testml", (req, res) => {
+    res.render("testML")
+});
+
 app.get("/", (req, res) => {
     res.render("index");
 });
@@ -103,7 +130,7 @@ app.get("/cropdetails/:id", async(req, res) => {
 
 app.get("/mylistings", isLoggedIn, isFarmer, async(req, res) => {
     const crops = await cropModel.find().sort({ createdAt: -1 });
-    res.render("myListings", { crops })
+    res.render("mylissting", { crops })
 });
 
 app.get("/makedeal/:cropId", async(req, res) => {
