@@ -246,6 +246,10 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.get("/frontpage", (req, res) => {
+    res.render("frontpage");
+});
+
 app.get("/logout", isLoggedIn, (req, res) => {
     req.session.destroy();
     res.redirect("/login");
@@ -300,6 +304,16 @@ function isBuyer(req, res, next) {
     next();
 }
 
+app.get("/preview/:page", (req, res) => {
+    console.log("Previewing:", req.params.page);
+
+    res.render(req.params.page, {
+        deals: [],
+        crops: [],
+        crop: {},
+        user: {}
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
