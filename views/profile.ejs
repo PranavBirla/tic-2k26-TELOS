@@ -99,17 +99,17 @@
                 <div class="flex flex-wrap gap-4 lg:justify-center  ">
 
                     <a class="bg-green-500 text-white
-                    p px-5 py-2 rounded-lg hover:bg-green-600" href="">
+                    p px-5 py-2 rounded-lg hover:bg-green-600" href="/addcrop">
                         Add Listing
                     </a>
 
                     <a class="bg-green-500 text-white
-                    px-5 py-2 rounded-lg hover:bg-green-600" href="">
+                    px-5 py-2 rounded-lg hover:bg-green-600" href="/mylistings">
                         View Listing
                     </a>
 
                     <a class="bg-green-500 text-white
-                    p px-5 py-2 rounded-lg hover:bg-green-600" href="">
+                    p px-5 py-2 rounded-lg hover:bg-green-600" href="/farmerdeals">
                         Check Deals
                     </a>
 
@@ -126,12 +126,6 @@
                 </div>
 
             <div>
-                <input type="text" id="profileCrop" placeholder="Enter crop (Wheat)" />
-                 <button onclick="getProfileAI()">Get Insights</button>
-
-        
-                  
-        
 
             </div>
             </div>
@@ -169,7 +163,7 @@
             </div>
 
 
-            <div class="bg-white p-6 rounded-xl shadow-lg">
+            <div class="bg-amber-300 p-6 rounded-xl shadow-lg">
 
                 <h3 class="font-semibold mb-3">
                     Farmer Stats
@@ -192,7 +186,7 @@
                 </p>
                 <div class="flex justify-end items-center"><a
                         class="mt-4 font-bold bg-gray-50 border-[1px] border-red-600 text-red-600 px-4 py-2 rounded-lg "
-                        href="">log out</a></div>
+                        href="/logout">log out</a></div>
 
 
             </div>
@@ -202,41 +196,5 @@
     </div>
 
 </body>
-
-
-    <script>
-async function getProfileAI() {
-    const cropName = document.getElementById("profileCrop").value;
-
-    if (!cropName) {
-        alert("Enter crop name");
-        return;
-    }
-
-    try {
-        const res = await fetch("/predict-price", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ cropName })
-        });
-
-        const data = await res.json();
-
-        document.getElementById("profileAIResult").innerHTML = `
-            <p><strong>Price:</strong> ₹${data.predicted_price}</p>
-            <p><strong>Temperature:</strong> ${data.weather.temp}°C</p>
-            <p><strong>Humidity:</strong> ${data.weather.humidity}%</p>
-            <p><strong>Time:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
-        `;
-
-    } catch (err) {
-        console.log(err);
-        alert("Error fetching AI data");
-    }
-}
-
-</script>
 
 </html>

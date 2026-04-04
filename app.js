@@ -28,7 +28,7 @@ app.post("/predict-price", async (req, res) => {
     const { cropName } = req.body;
 
     try {
-        const response = await axios.post("http://127.0.0.1:8000/predict", {
+        const response = await axios.post("http://ml-api-production-fe68.up.railway.app", {
             crop_name: cropName,
             lat: 23.2599,
             lon: 77.4126
@@ -46,9 +46,7 @@ app.post("/predict-price", async (req, res) => {
     }
 });
 
-app.get("/testml", (req, res) => {
-    res.render("testML")
-});
+
 
 app.get("/", (req, res) => {
     res.render("index");
