@@ -6,41 +6,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KRISHIQ Marketplace</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
-<body class="bg-[#f9fafb] text-gray-800 font-sans">
+<body class="bg-gray-200 text-gray-800 font-sans">
+
+    <nav
+        class="items-center flex  m-10 top-5 my-5 rounded-full bg-white w-9/12 mx-auto z-50 navbar-blur  border-b border-[#E5E7EB] shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
 
 
-    <nav class="bg-white px-[5%] py-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
-        <div class="text-lg font-semibold text-green-600 tracking-tight">KRISHIQ</div>
-        <div class="gap-8 text-sm  flex items-center">
+                <a href="/" class="flex items-center gap-2.5 group">
+                    <div class="w-8 h-8 logo-dot rounded-lg flex items-center justify-center shadow-sm">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M17 8C8 10 5.9 16.17 3.82 21C7.3 18 13.62 16 17 8zM21 3c-3.81 4-9.12 5-13 6-1.84.48-3.42 1.32-4.79 2.37A11.53 11.53 0 0 0 2.5 14c1.62-1.08 3.48-1.81 5.5-2a18.94 18.94 0 0 1 7 1.06C17.41 14.5 19.5 16.36 20 19c1.1-2.5 1.5-5 .78-7.5.41-.36.82-.74 1.22-1.13V3z" />
+                        </svg>
+                    </div>
+                    <span class="font-heading font-semibold text-lg text-[#111827] tracking-tight">
+                        Krishi<span class="text-[#16A34A]">q</span>
+                    </span>
+                </a>
 
 
-            <a href="/buyerdeals">Deals</a>
-            <div class="relative">
-                <img src="https://i.pravatar.cc/40"
-                    class="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300">
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="/listings"
+                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#6B7280] hover:text-[#16A34A] hover:bg-[#DCFCE7] transition-colors duration-150">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        My Listings
+                    </a>
+                    <a href="/deals"
+                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#16A34A] bg-[#DCFCE7] transition-colors duration-150">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        Deals
+                    </a>
+                    <a href="/marketplace"
+                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#6B7280] hover:text-[#16A34A] hover:bg-[#DCFCE7] transition-colors duration-150">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        Marketplace
+                    </a>
+                </div>
+
+
+                <div class="flex items-center gap-3">
+                    <button
+                        class="relative p-2 rounded-lg text-[#6B7280] hover:text-[#16A34A] hover:bg-[#DCFCE7] transition-colors duration-150">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <span
+                            class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#EF4444] rounded-full border-2 border-white"></span>
+                    </button>
+                    <a href="/profile" class="flex items-center gap-2 group">
+                        <div class="w-9 h-9 rounded-full overflow-hidden avatar-ring">
+                            <img src="https://ui-avatars.com/api/?name=Ramesh+Kumar&background=16A34A&color=fff&size=80"
+                                alt="Ramesh Kumar" class="w-full h-full object-cover" />
+                        </div>
+                        <span
+                            class="hidden sm:block text-sm font-medium text-[#111827] group-hover:text-[#16A34A] transition-colors duration-150">Ramesh</span>
+                    </a>
+                 
+                    <button
+                        class="md:hidden p-2 rounded-lg text-[#6B7280] hover:bg-[#F9FAFB] transition-colors duration-150">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+
             </div>
         </div>
     </nav>
 
-
-    <div class="max-w-7xl mx-auto px-6 py-12 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-3">Buy Crops Directly From Farmers</h1>
-        <p class="text-gray-500 mb-8">Fair Prices • Fresh Harvest • No Middlemen</p>
+    <div
+        class="max-w-7xl mx-auto px-6 py-12 text-center bg-[url('https://i.pinimg.com/1200x/0e/28/4d/0e284ddb4e900c9108504ec1ae4a931c.jpg')] bg-cover rounded-xl">
+        <h1 class="text-3xl md:text-4xl  mb-3">Buy Crops Directly From Farmers</h1>
+        <p class=" text-black lg:text-gray-900  mb-8">Fair Prices • Fresh Harvest • No Middlemen</p>
 
         <div class="flex justify-center">
             <input type="text" placeholder="Search crops like wheat, tomatoes, onions..."
-                class="w-full max-w-lg px-6 py-4 rounded-full border border-gray-200 shadow-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-transparent transition-all">
+                class="w-full max-w-lg px-6 py-4 rounded-full border border-gray-200 shadow-md focus:outline-none ">
         </div>
     </div>
 
 
     <div class="max-w-7xl mx-auto px-6 pb-20">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold">Nearby Crops</h2>
-        </div>
-        <div class="bg-zinc-300 h-[1px] mb-6"></div>
+        
+        <div class=" bg-black h-[1px] mb-6 shadow-lg m-2"></div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
@@ -49,10 +113,10 @@
             <% crops.forEach( crop=> { %>
 
                 <div
-                    class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-center">
- 
-                    <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b"
-                        class="w-full h-48 object-cover" alt="<%= crop.name %>">
+                    class=" rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-center border-[2px] border-gray-200 p-2">
+
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT24vgI7o0GIR8HMRVhN5pccxBB-Prpnw3Z9w&s"
+                        class="w-full h-48 object-cover rounded-xl" alt="<%= crop.name %>">
 
                     <div class="p-5">
 
@@ -60,14 +124,27 @@
                             <%= crop.cropName %>
                         </div>
 
-                        <div class="text-s text-gray-600 mb-3">
+                        <div class="text-s text-gray-600 mb-3 flex items-center"><svg xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                class="w-6 h-6 text-gray-600">
+
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75
+                                a7.488 7.488 0 00-5.982 2.975
+                                m11.964 0a9 9 0 10-11.964 0
+                                m11.964 0A8.966 8.966 0 0112 21
+                                a8.966 8.966 0 01-5.982-2.275
+                                M15 9a3 3 0 11-6 0
+                                3 3 0 016 0z" />
+
+                            </svg>
                             Rajesh singh
+
                             <!-- <%= crop.farmer %> -->
                         </div>
 
                         <div class="flex items-center gap-3 text-sm text-gray-600 mb-4">
 
-                           
+
                             <div class="flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -75,11 +152,11 @@
                                         d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.1 6.463a1 1 0 00.95.69h6.8c.969 0 1.371 1.24.588 1.81l-5.5 4a1 1 0 00-.364 1.118l2.1 6.463c.3.921-.755 1.688-1.538 1.118l-5.5-4a1 1 0 00-1.176 0l-5.5 4c-.783.57-1.838-.197-1.538-1.118l2.1-6.463a1 1 0 00-.364-1.118l-5.5-4c-.783-.57-.38-1.81.588-1.81h6.8a1 1 0 00.95-.69l2.1-6.463z" />
                                 </svg>
                                 <span class="font-medium text-gray-700">4.8
-                                       <!-- <%= crop.rating %> --> 
+                                    <!-- <%= crop.rating %> -->
                                 </span>
                             </div>
 
-                            
+
                             <div class="flex items-center gap-0.5">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -102,7 +179,7 @@
                         </div>
 
                         <a href="/cropdetails/<%= crop._id %>"
-                            class="px-5 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 shadow flex justify-center">
+                            class="px-5 py-2 rounded-lg bg-grey-100 font-medium text-green-900 shadow-lg flex justify-center">
                             View Details
                         </a>
 
@@ -111,39 +188,7 @@
 
                 <% }) %>
 
-                    <!-- <div
-                class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b" class="w-full h-48 object-cover"
-                    alt="Wheat">
-                <div class="p-5">
-                    <div class="text-lg font-bold mb-1">Premium Wheat</div>
-                    <div class="text-xs text-gray-500 mb-3">👨‍🌾 Rajesh Kumar</div>
-                    <div class="flex items-center justify-between text-sm text-gray-600 mb-4">
-
-                        <div class="flex items-center gap-2">
-                            <span class="font-medium text-gray-800">4.8</span>
-                            <span class="text-gray-400">rating</span>
-                        </div>
-
-                        <div class="flex items-center gap-1 text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 11c0-1.657-1.343-3-3-3S6 9.343 6 11c0 3 3 7 3 7s3-4 3-7z" />
-                            </svg>
-                            <span>12 km</span>
-                        </div>
-
-                    </div>
-                    <div class="text-[#56d408] text-lg font-bold mb-4">₹2400 / Quintal</div>
-                    <button
-                        class="w-full bg-[#56d408] text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">View
-                        Details</button>
-                </div>
-            </div> -->
-
-
-
+                    
 
         </div>
     </div>

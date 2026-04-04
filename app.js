@@ -86,7 +86,7 @@ app.get("/cropdetails/:id", async (req, res) => {
         if (!crop) {
             return res.send("Crop not found");
         }
-        res.render("cropdetails", { crop });
+        res.render("cropdetailwithdeal", { crop });
     
 });
 
