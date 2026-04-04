@@ -31,12 +31,13 @@ app.get("/addcrop", isLoggedIn, isFarmer, (req, res) => {
 });
 
 app.post("/addcrop", isLoggedIn, isFarmer, async(req, res) => {
-    const { cropName, quantity, price } = req.body;
+    const { cropName, quantity, price, farmerId } = req.body;
 
     await cropModel.create({
         cropName,
         quantity,
-        price
+        price,
+        farmerId: req.session.userId
     });
 
     res.redirect("/mylistings");
@@ -47,7 +48,7 @@ app.get("/editcrop/:id", isLoggedIn, isFarmer, async(req, res) => {
     const crop = await cropModel.findById(req.params.id);
 
     if (!crop) {
-        return res.send("Crop not found ❌");
+        return res.send("Crop not found");
     }
 
     res.render("editcrop", { crop });
@@ -57,10 +58,11 @@ app.post("/editcrop/:id", isLoggedIn, isFarmer, async(req, res) => {
     try {
         const { cropName, quantity, price } = req.body;
 
-        await cropModel.findByIdAndUpdate(req.params.id, {
+        await cropModel.findByIdAndUpdate(req.session.id, {
             cropName,
             quantity,
-            price
+            price,
+            farmerId: "demoFarmer"
         });
 
         res.redirect("/mylistings");
@@ -114,7 +116,7 @@ app.get("/makedeal/:cropId", async(req, res) => {
 
 app.get("/buyerdeals", isLoggedIn, isBuyer, async(req, res) => {
     const farmerId = "demoFarmer";
-    const buyerId = "demoBuyer"
+    const buyerId = "demoBuyer";
     const deals = await dealModel.find({ buyerId }).populate("cropId");
 
     res.render("buyerdeals", { deals });
@@ -140,7 +142,7 @@ app.post("/deal/:cropId", isLoggedIn, async(req, res) => {
             cropId: cropData._id,
             offeredPrice,
             quantity,
-            farmerId: cropData.farmerId,
+            farmerId: "demoFarmer",
             buyerId: "demoBuyer",
             status: "pending"
         })
