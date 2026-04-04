@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    All deals ->
+    <div>
+
+        <% deals.forEach(deal=> { %>
+
+            <div style="border:1px solid gray; padding:10px; margin:10px">
+
+                <h2>
+                    <%= deal.cropId.cropName %>
+                </h2>
+
+                <p>Original Price: ₹<%= deal.cropId.price %>
+                </p>
+                <p>Offered Price: ₹<%= deal.offeredPrice %>
+                </p>
+                <p>Quantity: <%= deal.quantity %>
+                </p>
+                <p>Status: <%= deal.status %>
+                </p>
+
+                <% if (deal.status==="pending" ) { %>
+
+                    <form action="/deal/accept/<%= deal._id %>" method="POST">
+                        <button>Accept</button>
+                    </form>
+
+                    <form action="/deal/reject/<%= deal._id %>" method="POST">
+                        <button>Reject</button>
+                    </form>
+
+                    <% } %>
+
+            </div>
+
+            <% }) %>
+    </div>
+</body>
+
+</html>

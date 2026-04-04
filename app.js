@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 const db = require("./config/mongoose-connection");
 const cropModel = require("./models/crop");
+const dealModel = require("./models/deal");
 
 db();
 
@@ -19,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/addcrop", (req, res) => {
-    res.render("addcroptest2");
+    res.render("addcrop");
 });
 
 app.post("/addcrop", async (req, res) => {
@@ -90,18 +91,76 @@ app.get("/cropdetails/:id", async (req, res) => {
 });
 
 
+
 app.get("/mylistings", async (req, res) => {
     const crops = await cropModel.find();
     res.render("myListings", { crops })
 });
 
+app.get("/makedeal/:cropId", async (req, res) => {
+    const crop = await cropModel.findById(req.params.cropId);
+    res.render("makedeal", { cropId:req.params.cropId, crop})
+})
+
+
+app.get("/buyerdeals", async (req, res) => {
+    const farmerId = "demoFarmer";
+    const buyerId = "demoBuyer"
+    const deals = await dealModel.find({buyerId}).populate("cropId");
+
+    res.render("buyerdeals", { deals});
+})
+
+app.get("/farmerdeals", async (req, res) => {
+    const farmerId = "demoFarmer";
+
+    const deals = await dealModel.find({farmerId}).populate("cropId");
+
+    res.render("farmerdeals", { deals});
+})
 
 
 
 
+app.post("/deal/:cropId", async (req, res) => {
+    try{
+        const {  offeredPrice, quantity } = req.body;
+        const cropData = await cropModel.findById(req.params.cropId);
 
+        await dealModel.create({
+            cropId: cropData._id,
+            offeredPrice,
+            quantity,
+            farmerId: cropData.farmerId,
+            buyerId: "demoBuyer",
+            status: "pending"
+        })
+        res.redirect("/buyerdeals");
+        console.log("PRICE:", offeredPrice); // 🔥 ADD THIS
+    }catch (err) {
+        console.log(err);
+        res.send("Error creating deal", err);
+    }
+})
 
+app.post("/deal/accept/:id", async (req, res) => {
+    await dealModel.findByIdAndUpdate(req.params.id, { status: "accepted" });
+    res.redirect("/farmerdeals")
+});
 
+app.post("/deal/reject/:id", async (req, res) => {
+    await dealModel.findByIdAndUpdate(req.params.id, { status: "rejected" });
+    res.redirect("/farmerdeals")
+});
+
+app.post("/deletebuyerdeal/:id", async (req, res) => {
+    try{
+        await dealModel.findByIdAndDelete(req.params.id);
+        res.redirect("/buyerdeals");
+    }catch (err) {
+        res.send("Error in deleting deal: ", err);
+    };
+})
 
 
 
