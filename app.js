@@ -5,6 +5,8 @@ const app = express();
 const db = require("./config/mongoose-connection");
 const cropModel = require("./models/crop");
 const dealModel = require("./models/deal");
+const userModel = require("./models/user");
+const session = require("express-session")
 
 db();
 
@@ -13,6 +15,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
+app.use(session({
+    secret: "krishiq-secret",
+    resave: false,
+    saveUninitialized: true
+}));
 
 
 app.get("/", (req, res) => {
@@ -188,7 +195,7 @@ app.post("/deletebuyerdeal/:id", async(req, res) => {
 
 
 
-app.get("signup", (req, res) => {
+app.get("/signup", (req, res) => {
     res.render("signup");
 })
 
@@ -197,8 +204,47 @@ app.get("/login", (req, res) => {
 })
 
 app.post("/signup", async(req, res, next) => {
+    const { username, email, password, role, location, contact } = req.body;
 
-})
+    const user = await userModel.create({
+        username,
+        email,
+        password,
+        role,
+        location,
+        contact
+    });
+
+    req.session.userId = user._id,
+    req.session.role = user.role,
+
+    if(user.role === farmer){
+        return res.redirect("/mylistings")
+    }else {
+        res.redirect("/marketplace")
+    }
+});
+
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email, password });
+
+    if (!user) {
+        return res.send("Invalid credentials");
+    }
+
+    req.session.userId = user._id;
+    req.session.role = user.role;
+
+    res.redirect("/marketplace");
+});
+
+app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.redirect("/login");
+});
+
 
 
 

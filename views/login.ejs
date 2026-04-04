@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishiq Login</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-cover bg-center  "
+style="background-image:url('https://images.pexels.com/photos/31322684/pexels-photo-31322684.jpeg');">
+
+
+
+
+<div class="absolute inset-0 bg-black bg-opacity-40"></div>
+
+
+<div class="relative bg-white p-6 rounded-xl shadow-xl w-[90%] sm:w-[80%] md:w-full max-w-md transform transition duration-300 hover:scale-95">
+
+<div class="flex items-center gap-2 mb-6">
+    <div class="w-10 h-10 rounded-full overflow-hidden">
+        <img src="images/logo.png"
+             alt="Krishiq Logo"
+             class="w-full h-full object-cover scale-125">
+    </div>
+    <h1 class="text-xl text-green-700 font-bold">Krishiq</h1>
+</div>
+
+<h2 class="text-2xl font-semibold mb-6">Log in</h2>
+
+<form id="loginForm" class="space-y-4">
+
+<input type="email" placeholder="Email"
+class="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+
+<input type="password" placeholder="Password"
+class="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+
+<button
+type="submit"
+class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">
+Log in
+</button>
+
+</form>
+
+</div>
+
+<script>
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+
+e.preventDefault()
+
+const email = document.querySelector('input[type="email"]').value.trim()
+const password = document.querySelector('input[type="password"]').value.trim()
+
+if(email === "" || password === ""){
+alert("Please enter email and password")
+return
+}
+
+alert("Login successful")
+
+})
+
+</script>
+
+</body>
+</html>
