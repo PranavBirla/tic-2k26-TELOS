@@ -12,8 +12,8 @@
 
 
     <nav class="bg-white px-[5%] py-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
-        <div class="text-2xl font-bold text-green-600 tracking-tight">KRISHIQ</div>
-        <div class="gap-6 text-sm  flex items-center">
+        <div class="text-lg font-semibold text-green-600 tracking-tight">KRISHIQ</div>
+        <div class="gap-8 text-sm  flex items-center">
 
 
             <a href="/buyerdeals">Deals</a>
@@ -49,8 +49,8 @@
             <% crops.forEach( crop=> { %>
 
                 <div
-                    class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-
+                    class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-center">
+ 
                     <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b"
                         class="w-full h-48 object-cover" alt="<%= crop.name %>">
 
@@ -60,12 +60,12 @@
                             <%= crop.cropName %>
                         </div>
 
-                        <div class="text-xs text-gray-500 mb-3">
+                        <div class="text-s text-gray-600 mb-3">
                             Rajesh singh
                             <!-- <%= crop.farmer %> -->
                         </div>
 
-                        <div class="flex items-center justify-between text-sm text-gray-600 mb-4">
+                        <div class="flex items-center gap-3 text-sm text-gray-600 mb-4">
 
                            
                             <div class="flex items-center gap-1">
@@ -80,7 +80,7 @@
                             </div>
 
                             
-                            <div class="flex items-center gap-1">
+                            <div class="flex items-center gap-0.5">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -93,7 +93,7 @@
 
                         </div>
 
-                        <div class="text-green-600 text-lg font-medium mb-4">
+                        <div class="text-green-600 text-md font-medium mb-4">
                             ₹<%= crop.price %> / Quintal
                         </div>
 
@@ -102,7 +102,7 @@
                         </div>
 
                         <a href="/cropdetails/<%= crop._id %>"
-                            class="w-full bg-[#56d408] text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">
+                            class="px-5 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 shadow flex justify-center">
                             View Details
                         </a>
 
