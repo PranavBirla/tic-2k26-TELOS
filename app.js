@@ -34,7 +34,8 @@ app.post("/predict-price", async (req, res) => {
             lon: 77.4126
         });
 
-        res.json(response.data);   // 🔥 IMPORTANT (NOT render)
+        res.json(response.data);
+           // 🔥 IMPORTANT (NOT render)
 
     } catch (err) {
         console.log(err.response?.data || err.message);

@@ -30,34 +30,22 @@
 
 <body class="bg-gray-100">
 
-    <nav class="bg-white shadow-2xl w-9/12 mx-auto m-10 rounded-full sticky top-0 z-50">
+    <header
+    class="bg-white shadow-2xl rounded-full m-10 w-11/12 md:w-9/12 mx-auto border-b border-gray-200 px-3 md:px-10 py-4 flex justify-between items-center">
 
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-green-700 font-semibold text-lg">KRISHIQ</h1>
 
-            <div class="text-xl font-bold text-green-600">
-                Krishiq
-            </div>
+    <nav class="flex items-center gap-2 md:gap-6 text-xs md:text-sm text-gray-500">
+      <a href="/addcrop" class="hover:text-green-500">Add Crop</a>
+      <a href="/farmerdeals" class="hover:text-green-500">Deals</a>
+      <a href="/profile" class="hover:text-green-500">Profile</a>
 
-            <div class="flex items-center space-x-6">
-
-                <a href="/mylistings" class="text-gray-600 hover:text-green-600">
-                    My Listings
-                </a>
-
-                <a href="/farmerdeals" class="text-gray-600 hover:text-green-600">
-                    Deals
-                </a>
-
-                <div class="relative">
-                    <img src="https://i.pravatar.cc/40"
-                        class="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300">
-                </div>
-
-            </div>
-
-        </div>
-
+      <div class="relative">
+        <img src="https://i.pravatar.cc/40" class="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300">
+      </div>
     </nav>
+
+  </header>
 
 
 
@@ -127,54 +115,23 @@
 
 
 
-            <div class="bg-white p-6 rounded-xl shadow-lg">
-
-                <h2 class="text-lg font-semibold mb-4 font-bold">
-                    My Listings
-                </h2>
-
-                <div class="grid md:grid-cols-3 gap-4">
-
-
-                    <div class="border bg-gray-200 p-4 rounded-lg">
-
-                        <h3 class="font-semibold">
-                            Tomatoes
-                        </h3>
-
-                        <p class="text-gray-500">
-                            ₹20 / kg
-                        </p>
-
-                        <p class="text-sm text-gray-500">
-                            Quantity: 200 kg
-                        </p>
-
-                        <p class="text-sm text-gray-400">
-                            Bhopal
-                        </p>
-                        <div class="flex justify-around">
-                            <a class="text-green-600 text-lg font-medium mt-2" href="">Edit</a>
-                            <a class="text-red-600 text-lg font-medium mt-2" href="">Delete</a>
-                        </div>
-
-                    </div>
-
-
-                   
-
+            <div class="bg-gradient-to-r font-stretch-50% from-blue-800 via-indigo-900 to-pink-500 p-6 min-h-[47%] rounded-xl shadow-lg">
+                <div class="flex gap-2 items-center">
+                    <h1 class="text-white text-5xl font-bold">AI</h1> <h2 class="text-3xl text-white items-center">Features</h2>
                 </div>
 
+            <div>
+                <input type="text" id="profileCrop" placeholder="Enter crop (Wheat)" />
+                 <button onclick="getProfileAI()">Get Insights</button>
+
+        
+                  
+        
+
+            </div>
             </div>
 
 
-
-            <div class=" p-6 rounded-xl shadow">
-
-
-
-
-            </div>
 
         </div>
 
@@ -240,5 +197,41 @@
     </div>
 
 </body>
+
+
+    <script>
+async function getProfileAI() {
+    const cropName = document.getElementById("profileCrop").value;
+
+    if (!cropName) {
+        alert("Enter crop name");
+        return;
+    }
+
+    try {
+        const res = await fetch("/predict-price", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ cropName })
+        });
+
+        const data = await res.json();
+
+        document.getElementById("profileAIResult").innerHTML = `
+            <p><strong>Price:</strong> ₹${data.predicted_price}</p>
+            <p><strong>Temperature:</strong> ${data.weather.temp}°C</p>
+            <p><strong>Humidity:</strong> ${data.weather.humidity}%</p>
+            <p><strong>Time:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
+        `;
+
+    } catch (err) {
+        console.log(err);
+        alert("Error fetching AI data");
+    }
+}
+
+</script>
 
 </html>
