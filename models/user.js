@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     contact: Number,
     password: String,
-    
+    location: String
 });
 
 const crop = mongoose.model("user", userSchema);
