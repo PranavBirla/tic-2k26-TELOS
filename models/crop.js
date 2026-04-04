@@ -5,7 +5,7 @@ const cropSchema = new mongoose.Schema({
     quantity: Number,
     price: Number,
     description: String
-});
+}, { timestamps: true }); 
 
 const crop = mongoose.model("crop", cropSchema);
 

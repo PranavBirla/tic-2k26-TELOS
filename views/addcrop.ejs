@@ -116,6 +116,15 @@
             class="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-green-500 outline-none shadow"
             placeholder="Premium Basmati Rice">
         </div>
+        <div class="border-2 rounded-2xl p-10 m-4 mx-0 border-gray-400 w-2/3 h-[30%]">
+
+          <button class="bg-amber-300 px-4 py-2 rounded-xl border-2 border-amber-500 font-bold " type="button" onclick="getAIPrice()">
+            Get AI Suggested Price
+          </button>
+
+          <div class="font-bold" id="aiResult" style="margin-top:10px; color:green;"></div>
+
+        </div>
 
         <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
@@ -182,7 +191,7 @@
                   d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
               </svg>
             </div>
-          
+
             <p id="uploadText" class="text-sm">
               <span class="text-green-500 font-medium">Click to upload</span>
               <span class="text-gray-500"> or drag and drop</span>
@@ -192,7 +201,7 @@
               PNG, JPG, WEBP up to 5MB
             </p>
 
-            
+
             <img id="preview" class="hidden mt-4 rounded-lg max-h-40 shadow">
 
           </label>
@@ -202,6 +211,7 @@
         <div class="bg-green-500 text-white p-5 rounded-xl text-sm shadow">
           Listings with images and proper pricing get 3x more engagement.
         </div>
+
 
       </div>
 
@@ -233,6 +243,25 @@
     preview.classList.remove("hidden");
 
     text.classList.add("hidden");
+  }
+
+  async function getAIPrice() {
+    const cropName = document.querySelector('input[name="cropName"]').value;
+
+    const res = await fetch("/predict-price", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ cropName })
+    });
+
+    const data = await res.json();
+
+    document.getElementById("aiResult").innerText =
+      "Suggested Price: ₹" + data.predicted_price;
+
+    document.getElementById("priceInput").value = data.predicted_price;
   }
 
 </script>

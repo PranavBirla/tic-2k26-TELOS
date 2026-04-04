@@ -33,7 +33,7 @@ const dealSchema = new mongoose.Schema({
         enum: ["pending", "accepted", "rejected"],
         default: "pending"
     }
-});
+}, { timestamps: true });  
 
 const deal = mongoose.model("deal", dealSchema);
 

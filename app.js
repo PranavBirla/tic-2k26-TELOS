@@ -22,6 +22,33 @@ app.use(session({
 }));
 
 
+const axios = require("axios");
+
+app.post("/predict-price", async (req, res) => {
+    const { cropName } = req.body;
+
+    try {
+        const response = await axios.post("http://127.0.0.1:8000/predict", {
+            crop_name: cropName,
+            lat: 23.2599,
+            lon: 77.4126
+        });
+
+        res.json(response.data);   // 🔥 IMPORTANT (NOT render)
+
+    } catch (err) {
+        console.log(err.response?.data || err.message);
+
+        res.status(500).json({
+            error: err.response?.data?.detail || "ML error"
+        });
+    }
+});
+
+app.get("/testml", (req, res) => {
+    res.render("testML")
+});
+
 app.get("/", (req, res) => {
     res.render("index");
 });
@@ -85,7 +112,7 @@ app.post("/delete/:id", isLoggedIn, async(req, res) => {
 })
 
 app.get("/marketplace", isLoggedIn, isBuyer, async(req, res) => {
-    const crops = await cropModel.find();
+    const crops = await cropModel.find().sort({ createdAt: -1 });
     res.render("marketplace", { crops });
 });
 
@@ -102,8 +129,8 @@ app.get("/cropdetails/:id", async(req, res) => {
 
 
 app.get("/mylistings", isLoggedIn, isFarmer, async(req, res) => {
-    const crops = await cropModel.find();
-    res.render("myListings", { crops })
+    const crops = await cropModel.find().sort({ createdAt: -1 });
+    res.render("mylissting", { crops })
 });
 
 app.get("/makedeal/:cropId", async(req, res) => {
@@ -117,7 +144,7 @@ app.get("/makedeal/:cropId", async(req, res) => {
 app.get("/buyerdeals", isLoggedIn, isBuyer, async(req, res) => {
     const farmerId = "demoFarmer";
     const buyerId = "demoBuyer";
-    const deals = await dealModel.find({ buyerId }).populate("cropId");
+    const deals = await dealModel.find({ buyerId }).populate("cropId").sort({ createdAt: -1 });
 
     res.render("buyerdeals", { deals });
 })
@@ -125,7 +152,7 @@ app.get("/buyerdeals", isLoggedIn, isBuyer, async(req, res) => {
 app.get("/farmerdeals", isLoggedIn, isFarmer, async(req, res) => {
     const farmerId = "demoFarmer";
 
-    const deals = await dealModel.find({ farmerId }).populate("cropId");
+    const deals = await dealModel.find({ farmerId }).populate("cropId").sort({ createdAt: -1 });
 
     res.render("farmerdeals", { deals });
 })
@@ -256,6 +283,8 @@ app.get("/logout", isLoggedIn, (req, res) => {
 });
 
 app.get("/profile", isLoggedIn, async (req, res) => {
+
+
     if (!req.session.userId) {
         return res.redirect("/login");
     }
@@ -264,6 +293,22 @@ app.get("/profile", isLoggedIn, async (req, res) => {
 
     res.render("profile", { user });
 });
+
+app.get("/buyerprofile", isLoggedIn, isBuyer, async (req, res) => {
+    const farmerId = "demoFarmer";
+    const buyerId = "demoBuyer";
+    const deals = await dealModel.find({ buyerId }).populate("cropId");
+
+    if (!req.session.userId) {
+        return res.redirect("/login")
+    }
+
+    let user = await userModel.findById(req.session.userId);
+    
+    res.render("buyerProfile", { user, deals });
+})
+
+
 
 function isLoggedIn(req, res, next) {
     if (!req.session.userId) {
@@ -300,6 +345,7 @@ app.get("/preview/:page", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
 
 
 
