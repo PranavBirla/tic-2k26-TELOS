@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krishiq | My Deals (Buyer)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#16A34A',
+              greenDark: '#15803D',
+              greenLight: '#DCFCE7',
+              yellow: '#FACC15',
+              yellowLight: '#FEF9C3',
+            }
+          },
+          fontFamily: {
+            heading: ['Sora', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background-color: #F9FAFB; color: #111827; }
+    .font-heading, h1, h2, h3, h4 { font-family: 'Sora', sans-serif; }
+    .navbar-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .logo-dot { background: linear-gradient(135deg, #16A34A, #4ADE80); }
+    .avatar-ring { box-shadow: 0 0 0 2px #DCFCE7, 0 0 0 4px #16A34A22; }
+
+    /* Tab styles */
+    .tab-btn { position: relative; transition: color 0.15s ease; }
+    .tab-btn.active { color: #16A34A; }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 2px;
+      background: #16A34A;
+      border-radius: 99px;
+    }
+    .tab-btn:not(.active) { color: #6B7280; }
+    .tab-btn:not(.active):hover { color: #374151; }
+
+    .deal-section { display: none; }
+    .deal-section.active { display: block; }
+
+    .tabs-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .tabs-scroll::-webkit-scrollbar { display: none; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #F9FAFB; }
+    ::-webkit-scrollbar-thumb { background: #D1FAE5; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #16A34A; }
+
+    /* Table row hover */
+    .deal-row { transition: background 0.12s ease; }
+    .deal-row:hover { background: #F0FDF4; }
+
+    /* Delete button */
+    .btn-delete {
+      transition: all 0.15s ease;
+      color: #9CA3AF;
+    }
+    .btn-delete:hover { color: #EF4444; transform: scale(1.1); }
+
+    /* Status badges */
+    .badge-accepted  { background: #DCFCE7; color: #16A34A; }
+    .badge-pending   { background: #FEF9C3; color: #A16207; }
+    .badge-rejected  { background: #FEE2E2; color: #DC2626; }
+
+    /* Confirm delete modal */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    /* Price colors */
+    .price-up   { color: #16A34A; font-weight: 600; }
+    .price-down { color: #EF4444; font-weight: 600; }
+    .price-same { color: #6B7280; font-weight: 600; }
+
+    /* Responsive table wrapper */
+    .table-wrap { overflow-x: auto; }
+
+    /* Stat cards */
+    .stat-card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px 0 rgba(22,163,74,0.09);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#F9FAFB]">
+
+  <!-- ══════════ NAVBAR ══════════ -->
+  <nav class="sticky top-0 z-50 navbar-blur bg-white/90 border-b border-[#E5E7EB] shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2.5">
+          <div class="w-8 h-8 logo-dot rounded-lg flex items-center justify-center shadow-sm">
+            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17 8C8 10 5.9 16.17 3.82 21C7.3 18 13.62 16 17 8zM21 3c-3.81 4-9.12 5-13 6-1.84.48-3.42 1.32-4.79 2.37A11.53 11.53 0 0 0 2.5 14c1.62-1.08 3.48-1.81 5.5-2a18.94 18.94 0 0 1 7 1.06C17.41 14.5 19.5 16.36 20 19c1.1-2.5 1.5-5 .78-7.5.41-.36.82-.74 1.22-1.13V3z"/>
+            </svg>
+          </div>
+          <span class="font-heading font-semibold text-lg text-[#111827] tracking-tight">
+            Krishi<span class="text-[#16A34A]">q</span>
+          </span>
+        </a>
+
+        <!-- Nav Links -->
+        <div class="hidden md:flex items-center gap-1">
+          <a href="/marketplace" class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#6B7280] hover:text-[#16A34A] hover:bg-[#DCFCE7] transition-colors duration-150">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            Marketplace
+          </a>
+          <a href="/deals" class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#16A34A] bg-[#DCFCE7] transition-colors duration-150">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            My Deals
+          </a>
+        </div>
+
+        <!-- Right -->
+        <div class="flex items-center gap-3">
+          <button class="relative p-2 rounded-lg text-[#6B7280] hover:text-[#16A34A] hover:bg-[#DCFCE7] transition-colors duration-150">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            </svg>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#EF4444] rounded-full border-2 border-white"></span>
+          </button>
+          <a href="/profile" class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-full overflow-hidden avatar-ring">
+              <img src="https://ui-avatars.com/api/?name=Buyer+User&background=16A34A&color=fff&size=80" alt="Buyer" class="w-full h-full object-cover" />
+            </div>
+            <span class="hidden sm:block text-sm font-medium text-[#111827]">Buyer</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Page Header -->
+    <div class="mb-7">
+      <p class="text-xs font-medium text-[#9CA3AF] uppercase tracking-widest mb-1">Buyer Dashboard</p>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h1 class="font-heading text-2xl sm:text-3xl font-bold text-[#111827]">My Deals</h1>
+          <p class="text-sm text-[#6B7280] mt-1">Track all your crop deal offers and their current status.</p>
+        </div>
+        <!-- Search -->
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input id="searchInput" type="text" oninput="filterDeals()" placeholder="Search crop or farmer…"
+            class="pl-9 pr-4 py-2 text-sm bg-white border border-[#E5E7EB] rounded-lg text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#16A34A] focus:ring-1 focus:ring-[#16A34A] transition-colors duration-150 w-56" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-7">
+      <div class="stat-card bg-white rounded-xl p-5 border border-[#E5E7EB] shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-[#DCFCE7] flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-[#16A34A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-[#6B7280] uppercase tracking-wide">Accepted</p>
+          <p id="countAccepted" class="font-heading text-2xl font-bold text-[#111827] mt-0.5">0</p>
+        </div>
+        <span class="ml-auto w-2.5 h-2.5 rounded-full bg-[#16A34A]"></span>
+      </div>
+      <div class="stat-card bg-white rounded-xl p-5 border border-[#E5E7EB] shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-[#FEF9C3] flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-[#6B7280] uppercase tracking-wide">Pending</p>
+          <p id="countPending" class="font-heading text-2xl font-bold text-[#111827] mt-0.5">0</p>
+        </div>
+        <span class="ml-auto w-2.5 h-2.5 rounded-full bg-[#FACC15]"></span>
+      </div>
+      <div class="stat-card bg-white rounded-xl p-5 border border-[#E5E7EB] shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-[#EF4444]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-[#6B7280] uppercase tracking-wide">Rejected</p>
+          <p id="countRejected" class="font-heading text-2xl font-bold text-[#111827] mt-0.5">0</p>
+        </div>
+        <span class="ml-auto w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="bg-white rounded-xl border border-[#E5E7EB] shadow-sm mb-0 rounded-b-none">
+      <div class="tabs-scroll px-2">
+        <div class="flex items-center gap-1 min-w-max sm:min-w-0 border-b border-[#E5E7EB]">
+          <button onclick="switchTab('all')" id="tab-all"
+            class="tab-btn active font-heading font-semibold text-sm px-5 py-4 whitespace-nowrap focus:outline-none">
+            All Deals
+          </button>
+          <button onclick="switchTab('accepted')" id="tab-accepted"
+            class="tab-btn font-heading font-semibold text-sm px-5 py-4 whitespace-nowrap focus:outline-none">
+            Accepted
+          </button>
+          <button onclick="switchTab('pending')" id="tab-pending"
+            class="tab-btn font-heading font-semibold text-sm px-5 py-4 whitespace-nowrap focus:outline-none">
+            Pending
+          </button>
+          <button onclick="switchTab('rejected')" id="tab-rejected"
+            class="tab-btn font-heading font-semibold text-sm px-5 py-4 whitespace-nowrap focus:outline-none">
+            Rejected
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-white rounded-b-xl border border-t-0 border-[#E5E7EB] shadow-sm">
+      <div class="table-wrap">
+        <table class="w-full text-sm min-w-[700px]">
+          <thead>
+            <tr class="border-b border-[#E5E7EB]">
+              <th class="font-heading text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider text-left px-5 py-3.5">Crop Name</th>
+              <th class="font-heading text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider text-left px-5 py-3.5">Farmer Name</th>
+              <th class="font-heading text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider text-right px-5 py-3.5">Original Price</th>
+              <th class="font-heading text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider text-right px-5 py-3.5">Your Offer</th>
+              <th class="font-heading text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider text-right px-5 py-3.5">Quantity</th>
+              <th class="font-heading text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider text-center px-5 py-3.5">Status</th>
+              <th class="font-heading text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider text-center px-5 py-3.5">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="dealsTableBody">
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+      <!-- Empty state -->
+      <div id="emptyState" class="hidden text-center py-16">
+        <div class="w-14 h-14 rounded-full bg-[#DCFCE7] flex items-center justify-center mx-auto mb-4">
+          <svg class="w-7 h-7 text-[#16A34A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+        </div>
+        <p class="font-heading font-semibold text-[#111827] text-base">No deals found</p>
+        <p class="text-sm text-[#9CA3AF] mt-1">Try a different filter or search term.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer class="mt-12 border-t border-[#E5E7EB] bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 logo-dot rounded-md flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17 8C8 10 5.9 16.17 3.82 21C7.3 18 13.62 16 17 8zM21 3c-3.81 4-9.12 5-13 6-1.84.48-3.42 1.32-4.79 2.37A11.53 11.53 0 0 0 2.5 14c1.62-1.08 3.48-1.81 5.5-2a18.94 18.94 0 0 1 7 1.06C17.41 14.5 19.5 16.36 20 19c1.1-2.5 1.5-5 .78-7.5.41-.36.82-.74 1.22-1.13V3z"/>
+            </svg>
+          </div>
+          <span class="font-heading text-sm font-semibold text-[#111827]">Krishiq</span>
+          <span class="text-[#9CA3AF] text-xs">— Buyer Deals</span>
+        </div>
+        <p class="text-xs text-[#9CA3AF]">© 2025 Krishiq. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════ DELETE CONFIRM MODAL ══════════ -->
+  <div id="deleteModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm mx-4">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5 text-[#EF4444]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-heading font-bold text-[#111827]">Delete Deal?</h3>
+          <p class="text-xs text-[#9CA3AF]" id="modalDealName">This will remove the deal from your list.</p>
+        </div>
+      </div>
+      <p class="text-sm text-[#6B7280] mb-5">This action cannot be undone. The deal record will be permanently deleted.</p>
+      <div class="flex gap-3">
+        <button onclick="cancelDelete()"
+          class="flex-1 px-4 py-2.5 rounded-lg border border-[#E5E7EB] text-sm font-semibold text-[#6B7280] hover:bg-[#F9FAFB] transition-colors duration-150">
+          Cancel
+        </button>
+        <button onclick="confirmDelete()"
+          class="flex-1 px-4 py-2.5 rounded-lg bg-[#EF4444] text-white text-sm font-semibold hover:bg-red-600 transition-colors duration-150">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ─── DATA ───────────────────────────────────────
+    let deals = [
+      { id: 1, crop: 'Wheat (Gehun)',      farmer: 'Ramesh Kumar',   originalPrice: 22,  yourOffer: 23,  quantity: '500 kg',  status: 'accepted' },
+      { id: 2, crop: 'Rice (Basmati)',     farmer: 'Suresh Patel',   originalPrice: 55,  yourOffer: 52,  quantity: '1,000 kg',status: 'pending'  },
+      { id: 3, crop: 'Soybean (Soya)',     farmer: 'Mohan Singh',    originalPrice: 45,  yourOffer: 47,  quantity: '800 kg',  status: 'accepted' },
+      { id: 4, crop: 'Corn (Makka)',       farmer: 'Ajay Verma',     originalPrice: 18,  yourOffer: 18,  quantity: '1,200 kg',status: 'accepted' },
+      { id: 5, crop: 'Tomato (Tamatar)',   farmer: 'Dinesh Yadav',   originalPrice: 30,  yourOffer: 28,  quantity: '300 kg',  status: 'pending'  },
+      { id: 6, crop: 'Onion (Pyaz)',       farmer: 'Vijay Kumawat',  originalPrice: 20,  yourOffer: 12,  quantity: '400 kg',  status: 'rejected' },
+      { id: 7, crop: 'Turmeric (Haldi)',   farmer: 'Kiran Deshpande',originalPrice: 120, yourOffer: 95,  quantity: '250 kg',  status: 'rejected' },
+      { id: 8, crop: 'Mustard (Sarson)',   farmer: 'Pradeep Joshi',  originalPrice: 60,  yourOffer: 62,  quantity: '600 kg',  status: 'pending'  },
+    ];
+
+    let currentTab = 'all';
+    let deleteTargetId = null;
+
+    // ─── RENDER ─────────────────────────────────────
+    function renderTable() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const body = document.getElementById('dealsTableBody');
+      const empty = document.getElementById('emptyState');
+
+      const filtered = deals.filter(d => {
+        const matchTab = currentTab === 'all' || d.status === currentTab;
+        const matchSearch = d.crop.toLowerCase().includes(search) || d.farmer.toLowerCase().includes(search);
+        return matchTab && matchSearch;
+      });
+
+      // Update stat counts
+      document.getElementById('countAccepted').textContent = deals.filter(d => d.status === 'accepted').length;
+      document.getElementById('countPending').textContent   = deals.filter(d => d.status === 'pending').length;
+      document.getElementById('countRejected').textContent  = deals.filter(d => d.status === 'rejected').length;
+
+      if (filtered.length === 0) {
+        body.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      body.innerHTML = filtered.map(d => {
+        // Offer vs original price colour
+        let offerClass = 'price-same';
+        if (d.yourOffer > d.originalPrice) offerClass = 'price-up';
+        if (d.yourOffer < d.originalPrice) offerClass = 'price-down';
+
+        // Status badge
+        const badgeMap = {
+          accepted: `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold badge-accepted"><span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span>Accepted</span>`,
+          pending:  `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold badge-pending"><span class="w-1.5 h-1.5 rounded-full bg-[#FACC15]"></span>Pending</span>`,
+          rejected: `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold badge-rejected"><span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span>Rejected</span>`,
+        };
+
+        return `
+          <tr class="deal-row border-b border-[#F3F4F6] last:border-0" id="row-${d.id}">
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-[#DCFCE7] flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-[#16A34A]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17 8C8 10 5.9 16.17 3.82 21C7.3 18 13.62 16 17 8zM21 3c-3.81 4-9.12 5-13 6-1.84.48-3.42 1.32-4.79 2.37A11.53 11.53 0 0 0 2.5 14c1.62-1.08 3.48-1.81 5.5-2a18.94 18.94 0 0 1 7 1.06C17.41 14.5 19.5 16.36 20 19c1.1-2.5 1.5-5 .78-7.5.41-.36.82-.74 1.22-1.13V3z"/>
+                  </svg>
+                </div>
+                <span class="font-heading font-semibold text-[#111827]">${d.crop}</span>
+              </div>
+            </td>
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-2">
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(d.farmer)}&background=DCFCE7&color=16A34A&size=32&bold=true" class="w-7 h-7 rounded-full flex-shrink-0" alt="${d.farmer}" />
+                <span class="text-[#374151]">${d.farmer}</span>
+              </div>
+            </td>
+            <td class="px-5 py-4 text-right text-[#374151] font-medium">₹${d.originalPrice} / kg</td>
+            <td class="px-5 py-4 text-right">
+              <span class="${offerClass}">₹${d.yourOffer} / kg</span>
+            </td>
+            <td class="px-5 py-4 text-right text-[#374151]">${d.quantity}</td>
+            <td class="px-5 py-4 text-center">${badgeMap[d.status]}</td>
+            <td class="px-5 py-4 text-center">
+              <button onclick="askDelete(${d.id}, '${d.crop}')" class="btn-delete p-1.5 rounded-lg hover:bg-red-50 transition-all duration-150" title="Delete deal">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </td>
+          </tr>`;
+      }).join('');
+    }
+
+    // ─── TAB SWITCH ─────────────────────────────────
+    function switchTab(tab) {
+      currentTab = tab;
+      ['all','accepted','pending','rejected'].forEach(t => {
+        const btn = document.getElementById('tab-' + t);
+        if (t === tab) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+      renderTable();
+    }
+
+    // ─── SEARCH ─────────────────────────────────────
+    function filterDeals() { renderTable(); }
+
+    // ─── DELETE FLOW ────────────────────────────────
+    function askDelete(id, cropName) {
+      deleteTargetId = id;
+      document.getElementById('modalDealName').textContent = `"${cropName}" will be removed.`;
+      document.getElementById('deleteModal').classList.add('open');
+    }
+
+    function cancelDelete() {
+      deleteTargetId = null;
+      document.getElementById('deleteModal').classList.remove('open');
+    }
+
+    function confirmDelete() {
+      if (deleteTargetId === null) return;
+      deals = deals.filter(d => d.id !== deleteTargetId);
+      deleteTargetId = null;
+      document.getElementById('deleteModal').classList.remove('open');
+      renderTable();
+    }
+
+    function closeModal(e) {
+      if (e.target === document.getElementById('deleteModal')) cancelDelete();
+    }
+
+    // ─── INIT ────────────────────────────────────────
+    renderTable();
+  </script>
+</body>
+</html>
