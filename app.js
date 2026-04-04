@@ -26,11 +26,11 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/addcrop", (req, res) => {
+app.get("/addcrop", isLoggedIn, isFarmer, (req, res) => {
     res.render("addcrop");
 });
 
-app.post("/addcrop", async(req, res) => {
+app.post("/addcrop", isLoggedIn, isFarmer, async(req, res) => {
     const { cropName, quantity, price } = req.body;
 
     await cropModel.create({
@@ -43,7 +43,7 @@ app.post("/addcrop", async(req, res) => {
 });
 
 
-app.get("/editcrop/:id", async(req, res) => {
+app.get("/editcrop/:id", isLoggedIn, isFarmer, async(req, res) => {
     const crop = await cropModel.findById(req.params.id);
 
     if (!crop) {
@@ -53,7 +53,7 @@ app.get("/editcrop/:id", async(req, res) => {
     res.render("editcrop", { crop });
 });
 
-app.post("/editcrop/:id", async(req, res) => {
+app.post("/editcrop/:id", isLoggedIn, isFarmer, async(req, res) => {
     try {
         const { cropName, quantity, price } = req.body;
 
@@ -73,7 +73,7 @@ app.post("/editcrop/:id", async(req, res) => {
 
 
 
-app.post("/delete/:id", async(req, res) => {
+app.post("/delete/:id", isLoggedIn, async(req, res) => {
     try {
         await cropModel.findByIdAndDelete(req.params.id);
         res.redirect("/mylistings");
@@ -82,7 +82,7 @@ app.post("/delete/:id", async(req, res) => {
     }
 })
 
-app.get("/marketplace", async(req, res) => {
+app.get("/marketplace", isLoggedIn, isBuyer, async(req, res) => {
     const crops = await cropModel.find();
     res.render("marketplace", { crops });
 });
@@ -99,7 +99,7 @@ app.get("/cropdetails/:id", async(req, res) => {
 
 
 
-app.get("/mylistings", async(req, res) => {
+app.get("/mylistings", isLoggedIn, isFarmer, async(req, res) => {
     const crops = await cropModel.find();
     res.render("myListings", { crops })
 });
@@ -112,7 +112,7 @@ app.get("/makedeal/:cropId", async(req, res) => {
 
 
 
-app.get("/buyerdeals", async(req, res) => {
+app.get("/buyerdeals", isLoggedIn, isBuyer, async(req, res) => {
     const farmerId = "demoFarmer";
     const buyerId = "demoBuyer"
     const deals = await dealModel.find({ buyerId }).populate("cropId");
@@ -120,7 +120,7 @@ app.get("/buyerdeals", async(req, res) => {
     res.render("buyerdeals", { deals });
 })
 
-app.get("/farmerdeals", async(req, res) => {
+app.get("/farmerdeals", isLoggedIn, isFarmer, async(req, res) => {
     const farmerId = "demoFarmer";
 
     const deals = await dealModel.find({ farmerId }).populate("cropId");
@@ -131,7 +131,7 @@ app.get("/farmerdeals", async(req, res) => {
 
 
 
-app.post("/deal/:cropId", async(req, res) => {
+app.post("/deal/:cropId", isLoggedIn, async(req, res) => {
     try {
         const { offeredPrice, quantity } = req.body;
         const cropData = await cropModel.findById(req.params.cropId);
@@ -152,7 +152,7 @@ app.post("/deal/:cropId", async(req, res) => {
     }
 });
 
-app.post("/deal/direct/:cropId", async(req, res) => {
+app.post("/deal/direct/:cropId", isLoggedIn, isBuyer, async(req, res) => {
     try {
         const cropData = await cropModel.findById(req.params.cropId);
 
@@ -174,17 +174,17 @@ app.post("/deal/direct/:cropId", async(req, res) => {
     }
 });
 
-app.post("/deal/accept/:id", async(req, res) => {
+app.post("/deal/accept/:id", isLoggedIn, isFarmer, async(req, res) => {
     await dealModel.findByIdAndUpdate(req.params.id, { status: "accepted" });
     res.redirect("/farmerdeals")
 });
 
-app.post("/deal/reject/:id", async(req, res) => {
+app.post("/deal/reject/:id", isLoggedIn, isFarmer, async(req, res) => {
     await dealModel.findByIdAndUpdate(req.params.id, { status: "rejected" });
     res.redirect("/farmerdeals")
 });
 
-app.post("/deletebuyerdeal/:id", async(req, res) => {
+app.post("/deletebuyerdeal/:id", isLoggedIn, isBuyer, async(req, res) => {
     try {
         await dealModel.findByIdAndDelete(req.params.id);
         res.redirect("/buyerdeals");
@@ -203,32 +203,32 @@ app.get("/login", (req, res) => {
     res.render("login");
 })
 
-app.post("/signup", async(req, res, next) => {
-    const { username, email, password, role, location, contact } = req.body;
+app.post("/signup", async (req, res) => {
+    const { username, email, contact, location, password, role  } = req.body;
 
     const user = await userModel.create({
         username,
         email,
-        password,
-        role,
+        contact,
         location,
-        contact
+        password,
+        role
     });
 
-    req.session.userId = user._id,
-    req.session.role = user.role,
+    req.session.userId = user._id;
+    req.session.role = user.role;
 
-    if(user.role === farmer){
-        return res.redirect("/mylistings")
-    }else {
-        res.redirect("/marketplace")
+    if (user.role === "farmer") {
+        res.redirect("/mylistings");
+    } else {
+        res.redirect("/marketplace");
     }
 });
 
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email, password });
+    const user = await userModel.findOne({ email, password });
 
     if (!user) {
         return res.send("Invalid credentials");
@@ -237,20 +237,61 @@ app.post("/login", async (req, res) => {
     req.session.userId = user._id;
     req.session.role = user.role;
 
-    res.redirect("/marketplace");
+    if (user.role === "farmer") {
+        res.redirect("/mylistings");
+    } else {
+        res.redirect("/marketplace");
+    }
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", isLoggedIn, (req, res) => {
     req.session.destroy();
     res.redirect("/login");
 });
 
+app.get("/profile", isLoggedIn, async (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
 
+    let user = await userModel.findById(req.session.userId);
 
+    res.render("profile", { user });
+});
 
+function isLoggedIn(req, res, next) {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    next();
+};
 
+function isFarmer(req, res, next) {
+    if (req.session.role !== "farmer") {
+        return res.send("Access denied");
+    }
+    next();
+}
+
+function isBuyer(req, res, next) {
+    if (req.session.role !== "buyer") {
+        return res.send("Access denied");
+    }
+    next();
+}
 
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
+
