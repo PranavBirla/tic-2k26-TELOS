@@ -2,169 +2,676 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KRISHIQ | My Listings</title>
-
-
-
   <script src="https://cdn.tailwindcss.com"></script>
-
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f8fafc;
+      background: #f0f2f0;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      background: #ffffff;
+      border-radius: 999px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 0.55rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-text {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #16a34a;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-link {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #374151;
+      text-decoration: none;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+
+    .nav-link:hover {
+      background: #f3f4f6;
+    }
+
+    .nav-link.active {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 600;
+    }
+
+    .btn-green {
+      background: #22c55e;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.2s;
+    }
+
+    .btn-green:hover {
+      background: #16a34a;
+    }
+
+    .btn-green-round {
+      background: #22c55e;
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-green-round:hover {
+      background: #16a34a;
+    }
+
+    .avatar-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #16a34a;
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* ── HERO ── */
+    .hero-wrap {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      height: 300px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+          rgba(0, 0, 0, 0.65) 0%,
+          rgba(0, 0, 0, 0.22) 55%,
+          rgba(0, 0, 0, 0.45) 100%);
+    }
+
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 2.5rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #86efac;
+      font-size: 0.63rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.8rem;
+      border-radius: 999px;
+      margin-bottom: 0.85rem;
+      width: fit-content;
+    }
+
+    .hero-badge-dot {
+      width: 5px;
+      height: 5px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    .hero-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.55rem;
+    }
+
+    .hero-title span {
+      color: #4ade80;
+    }
+
+    .hero-sub {
+      font-size: 0.82rem;
+      color: #d1d5db;
+      max-width: 400px;
+      line-height: 1.6;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-label {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #16a34a;
+      margin-bottom: 0.2rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.02em;
+    }
+
+    .section-sub {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    /* ── SEARCH BAR ── */
+    .search-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      color: #9ca3af;
+      width: 14px;
+      height: 14px;
+      pointer-events: none;
+    }
+
+    .search-input {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: #374151;
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 0.4rem 0.8rem 0.4rem 2rem;
+      outline: none;
+      width: 190px;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: #22c55e;
+    }
+
+    .search-input::placeholder {
+      color: #9ca3af;
+    }
+
+    /* ── FILTER CHIPS ── */
+    .chip {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.32rem 0.9rem;
+      border-radius: 999px;
+      border: 1.5px solid #e5e7eb;
+      background: #fff;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .chip:hover {
+      border-color: #22c55e;
+      color: #16a34a;
+    }
+
+    .chip.active {
+      background: #22c55e;
+      color: #fff;
+      border-color: #22c55e;
+    }
+
+    /* ── CROP CARD ── */
+    .crop-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .crop-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+      transform: translateY(-3px);
+    }
+
+    .crop-card.is-sold {
+      opacity: 0.6;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .crop-img-wrap {
+      position: relative;
+      height: 155px;
+      overflow: hidden;
+      background: #f3f4f6;
+    }
+
+    .crop-img-inner {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .crop-card:hover .crop-img-inner {
+      transform: scale(1.05);
+    }
+
+    .crop-card.is-sold .crop-img-inner {
+      filter: grayscale(1);
+    }
+
+    .badge-active {
+      background: #22c55e;
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .badge-sold {
+      background: #6b7280;
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .price-chip {
+      background: #fff;
+      color: #15803d;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Card body */
+    .crop-body {
+      padding: 0.85rem 0.95rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .crop-category {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #16a34a;
+      margin-bottom: 0.22rem;
+    }
+
+    .crop-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.7rem;
+      line-height: 1.3;
+    }
+
+    .mini-stat {
+      background: #f9fafb;
+      border: 1px solid #f0f0f0;
+      border-radius: 8px;
+      padding: 0.42rem 0.55rem;
+    }
+
+    .mini-stat-label {
+      font-size: 0.58rem;
+      color: #9ca3af;
+      font-weight: 500;
+      margin-bottom: 1px;
+    }
+
+    .mini-stat-value {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    .mini-stat-value.buyers {
+      color: #2563eb;
+    }
+
+    /* ── ACTION BUTTONS ── */
+    .btn-edit {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #16a34a;
+      background: #f0fdf4;
+      padding: 0.48rem;
+      border-radius: 7px;
+      text-decoration: none;
+      border: 1.5px solid #bbf7d0;
+      transition: all 0.2s;
+    }
+
+    .btn-edit:hover {
+      background: #22c55e;
+      color: #fff;
+      border-color: #22c55e;
+    }
+
+    .btn-delete {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #ef4444;
+      background: #fff5f5;
+      padding: 0.48rem;
+      border-radius: 7px;
+      border: 1.5px solid #fecaca;
+      transition: all 0.2s;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-delete:hover {
+      background: #ef4444;
+      color: #fff;
+      border-color: #ef4444;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: #fff;
+      border-top: 1px solid #e5e7eb;
+      padding: 1rem 0;
+      margin-top: 2.5rem;
     }
   </style>
 </head>
 
-<body class="antialiased">
+<body>
 
+  <header
+    class="bg-white shadow-2xl rounded-full m-10 w-11/12 md:w-9/12 mx-auto border-b border-gray-200 px-3 md:px-10 py-4 flex justify-between items-center">
 
+    <h1 class="text-green-700 font-semibold text-lg">KRISHIQ</h1>
 
-  <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-bold text-green-700">KRISHIQ</h1>
-      <div class="flex items-center gap-6">
+    <nav class="flex items-center gap-2 md:gap-6 text-xs md:text-sm text-gray-500">
+      <a href="/addcrop" class="hover:text-green-500">Add Crop</a>
+      <a href="/farmerdeals" class="hover:text-green-500">Deals</a>
+      <a href="/profile" class="hover:text-green-500">Profile</a>
 
-        <a href="/addcrop" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-          + Add Crop
-        </a>
-        
-        <a href="/profile">Profile</a>
+      <div class="relative">
+        <img src="https://i.pravatar.cc/40" class="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300">
       </div>
-    </div>
+    </nav>
 
   </header>
 
-
-  <div class="max-w-6xl mx-auto px-6 py-8">
-
-
-    <div class="mb-6">
-      <h2 class="text-2xl font-bold">My Listings</h2>
-      <p class="text-gray-500 text-sm">Manage your crop listings</p>
-    </div>
-
-
-    <div class="grid grid-cols-3 gap-4 mb-8">
-      <div class="bg-white p-4 rounded-xl shadow text-center">
-        <h3 class="text-xl font-bold text-green-600">
-          <%= crops.length %>
-        </h3>
-        <p class="text-sm text-gray-500">Total Listings</p>
-      </div>
-
-      <div class="bg-white p-4 rounded-xl shadow text-center">
-        <h3 class="text-xl font-bold text-blue-600">
-          <%= crops.reduce((sum, c)=> sum + c.buyers, 0) %>
-        </h3>
-        <p class="text-sm text-gray-500">Total Inquiries</p>
-      </div>
-
-      <div class="bg-white p-4 rounded-xl shadow text-center">
-        <h3 class="text-xl font-bold text-green-700">
-          ₹<%= crops.reduce((sum, c)=> sum + (c.price * c.quantity), 0) %>
-        </h3>
-        <p class="text-sm text-gray-500">Estimated Value</p>
+  <div class="max-w-6xl mx-auto px-5 mt-5">
+    <div class="hero-wrap">
+      <img src="https://img.freepik.com/free-photo/sunny-meadow-landscape_1112-134.jpg?semt=ais_incoming&w=740&q=80"
+        alt="Sunny meadow" class="hero-img" />
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Empowering<br />
+          <span>Indian Farmers</span>
+        </h1>
+        <p class="hero-sub">
+          Manage your harvest, set your price, and connect with buyers across the country — all in one place.
+        </p>
       </div>
     </div>
-    <!-- No additional code needed as the edit button is already present in the crop card for active listings. -->
-
-    <!-- EMPTY STATE -->
-    <% if (crops.length===0) { %>
-      <p class="text-center text-gray-500 mt-10">
-        No listings yet. Add your first crop 🌱
-      </p>
-      <% } %>
-
-        <!-- LIST -->
-        <div class="space-y-4">
-
-          <% crops.forEach(crop=> { %>
-
-            <div
-              class="bg-white rounded-xl shadow flex overflow-hidden <%= crop.status === 'sold' ? 'opacity-70' : '' %>">
-
-              <!-- IMAGE -->
-              <img src="<%= crop.image %>"
-                class="w-48 h-40 object-cover <%= crop.status === 'sold' ? 'grayscale' : '' %>">
-
-              <!-- CONTENT -->
-              <div class="p-4 flex-1">
-
-                <!-- TITLE + STATUS -->
-                <div class="flex justify-between items-center">
-                  <h3 class="text-lg font-semibold">
-                    <%= crop.cropName %>
-                  </h3>
-
-
-                </div>
-
-                <!-- CATEGORY -->
-                <p class="text-sm text-gray-500 mt-1">
-                  <%= crop.category %>
-                </p>
-
-                <!-- PRICE + QUANTITY -->
-                <div class="flex gap-4 mt-2">
-                  <span class="text-green-600 font-bold">
-                    ₹<%= crop.price %>/kg
-                  </span>
-
-                  <span class="text-gray-500">
-                    <%= crop.quantity> 0 ? crop.quantity + ' kg left' : 'Sold out' %>
-                  </span>
-                </div>
-
-                <!-- BUYERS -->
-                <p class="text-sm text-gray-500 mt-1">
-                  <%= crop.buyers %> buyers interested
-                </p>
-
-                <!-- ACTIONS -->
-                <div class="mt-3 flex gap-2">
-
-
-
-                  <a href="/editcrop/<%= crop._id %>" class="px-3 py-1 bg-green-100 text-green-700 rounded">
-                    Edit
-                  </a>
-
-
-                  <form action="/delete/<%= crop._id %>" method="POST"
-                    onsubmit="return confirmDelete('Do you really want to delete this listing!')">
-
-                    <button class="px-3 py-1 bg-red-100 text-red-600 rounded">
-                      Delete
-                    </button>
-
-                  </form>
-
-
-
-                </div>
-
-              </div>
-            </div>
-
-            <% }) %>
-
-        </div>
-
   </div>
+
+
+  <!-- ══════════════ LISTINGS ══════════════ -->
+  <main class="max-w-6xl mx-auto px-5 py-8" id="listings">
+
+    <!-- Section header row -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+      <div>
+        <p class="section-label">Your Produce</p>
+        <h2 class="section-title">My Crop Listings</h2>
+        <p class="section-sub">Your active produce on the marketplace</p>
+      </div>
+
+      <!-- Search + filters -->
+      <div class="flex items-center gap-2 flex-wrap">
+      </div>
+    </div>
+
+    <div class="">
+
+      <!-- GRID -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5" id="cropGrid">
+
+        <% if(crops.length===0) { %>
+          <div class="empty-state shadow-2xl">
+            <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" stroke-width="1.8"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <h3 class="text-base font-bold text-gray-700 mb-1">No listings yet</h3>
+            <p class="text-gray-400 text-sm mb-5">Start by adding your first crop to the marketplace.</p>
+            <a href="/addcrop" class="btn-green inline-flex">+ Add Your First Crop</a>
+          </div>
+          <% } %>
+
+            <% crops.forEach(function(crop, i){ %>
+              <% var isSold=crop.status==='sold' || crop.quantity===0; %>
+
+                <div class="crop-card <%= isSold ? 'is-sold' : '' %>" data-status="<%= isSold ? 'sold' : 'active' %>"
+                  data-name="<%= crop.cropName.toLowerCase() %>">
+
+                  <!-- Image -->
+                  <div class="crop-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?q=80&w=1089&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef'" />
+
+                    onerror="this.src='https://www.vecteezy.com/free-photos/wheat-field'"" />
+                    <div class="absolute bottom-2.5 left-2.5">
+                      <span class="price-chip">₹<%= crop.price %>/kg</span>
+                    </div>
+                  </div>
+
+                  <!-- Body -->
+                  <div class="crop-body">
+                    <p class="crop-category">
+                      <%= crop.category %>
+                    </p>
+                    <h3 class="crop-name">
+                      <%= crop.cropName %>
+                    </h3>
+
+                    <div class="grid grid-cols-2 gap-2 mb-4">
+                      <div class="mini-stat">
+                        <p class="mini-stat-label">Qty Left</p>
+                        <p class="mini-stat-value">
+                          <%= crop.quantity> 0 ? crop.quantity + ' kg' : 'Sold out' %>
+                        </p>
+                      </div>
+                      <div class="mini-stat">
+                        <p class="mini-stat-label">Inquiries</p>
+                        <p class="mini-stat-value buyers">
+                          <%= crop.buyers %> buyers
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="flex-1"></div>
+
+                    <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
+                      <a href="/editcrop/<%= crop._id %>" class="btn-edit">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                        Edit
+                      </a>
+                      <form action="/delete/<%= crop._id %>" method="POST" onsubmit="return confirmDelete()"
+                        class="flex-1">
+                        <button type="submit" class="btn-delete">
+                          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+
+                  </div>
+                </div>
+                <% }) %>
+
+      </div>
+    </div>
+
+  </main>
+
+
+
+
+  <script>
+    function confirmDelete() {
+      return confirm("Are you sure you want to delete this listing?");
+    }
+
+    let currentFilter = 'all';
+
+    function setFilter(filter, el) {
+      currentFilter = filter;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      applyFilter();
+    }
+
+    function filterCards() { applyFilter(); }
+
+    function applyFilter() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('#cropGrid .crop-card').forEach(card => {
+        const matchFilter = currentFilter === 'all' || card.dataset.status === currentFilter;
+        const matchSearch = (card.dataset.name || '').includes(query);
+        card.style.display = (matchFilter && matchSearch) ? '' : 'none';
+      });
+    }
+  </script>
 
 </body>
 
 </html>
-
-
-<script>
-  function confirmDelete() {
-    return confirm("Are you sure you want to delete this crop?");
-  }
-</script>

@@ -26,82 +26,20 @@
 <body class="bg-gray-200 text-gray-800">
 
 
-    <nav
-        class="items-center flex  m-10 top-5 my-5 rounded-full bg-white w-9/12 mx-auto z-50 navbar-blur  border-b border-[#E5E7EB] shadow-2xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+    <!-- NAVBAR -->
+    <nav class="bg-white shadow-2xl rounded-full w-9/12 mx-auto mt-6 px-8 py-3 flex justify-between items-center sticky top-4 z-50">
 
+        <div class="text-xl font-bold text-green-600 tracking-tight">
+            KRISHIQ
+        </div>
 
-                <a href="/" class="flex items-center gap-2.5 group">
-                    <div class="w-8 h-8 logo-dot rounded-lg flex items-center justify-center shadow-sm">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M17 8C8 10 5.9 16.17 3.82 21C7.3 18 13.62 16 17 8zM21 3c-3.81 4-9.12 5-13 6-1.84.48-3.42 1.32-4.79 2.37A11.53 11.53 0 0 0 2.5 14c1.62-1.08 3.48-1.81 5.5-2a18.94 18.94 0 0 1 7 1.06C17.41 14.5 19.5 16.36 20 19c1.1-2.5 1.5-5 .78-7.5.41-.36.82-.74 1.22-1.13V3z" />
-                        </svg>
-                    </div>
-                    <span class="font-heading font-semibold text-lg text-[#111827] tracking-tight">
-                        Krishi<span class="text-[#16A34A]">q</span>
-                    </span>
-                </a>
+        <div class="flex items-center gap-6 text-sm font-medium text-gray-600">
+            <a href="/marketplace" class="hover:text-green-600 transition">Marketplace</a>
+            <a href="/buyerdeals" class="hover:text-green-600 transition">Deals</a>
+            <a href="/buyerprofile" class="hover:text-green-600 transition">Profile</a>
 
-
-                <div class="hidden md:flex items-center gap-1">
-                    <a href="/listings"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#6B7280] hover:text-[#16A34A] hover:bg-[#DCFCE7] transition-colors duration-150">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                        My Listings
-                    </a>
-                    <a href="/deals"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#16A34A] bg-[#DCFCE7] transition-colors duration-150">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                        </svg>
-                        Deals
-                    </a>
-                    <a href="/marketplace"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#6B7280] hover:text-[#16A34A] hover:bg-[#DCFCE7] transition-colors duration-150">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                        Marketplace
-                    </a>
-                </div>
-
-
-                <div class="flex items-center gap-3">
-                    <button
-                        class="relative p-2 rounded-lg text-[#6B7280] hover:text-[#16A34A] hover:bg-[#DCFCE7] transition-colors duration-150">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                        </svg>
-                        <span
-                            class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#EF4444] rounded-full border-2 border-white"></span>
-                    </button>
-                    <a href="/profile" class="flex items-center gap-2 group">
-                        <div class="w-9 h-9 rounded-full overflow-hidden avatar-ring">
-                            <img src="https://ui-avatars.com/api/?name=Ramesh+Kumar&background=16A34A&color=fff&size=80"
-                                alt="Ramesh Kumar" class="w-full h-full object-cover" />
-                        </div>
-                        <span
-                            class="hidden sm:block text-sm font-medium text-[#111827] group-hover:text-[#16A34A] transition-colors duration-150">Ramesh</span>
-                    </a>
-                 
-                    <button
-                        class="md:hidden p-2 rounded-lg text-[#6B7280] hover:bg-[#F9FAFB] transition-colors duration-150">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-
-            </div>
+            <img src="https://i.pravatar.cc/40"
+                class="w-9 h-9 rounded-full border-2 border-gray-200 cursor-pointer">
         </div>
     </nav>
 

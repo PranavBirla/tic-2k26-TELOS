@@ -201,7 +201,7 @@
 
     <nav class="flex items-center gap-2 md:gap-6 text-xs md:text-sm text-gray-500">
       <a href="/addcrop" class="hover:text-green-500">Add Crop</a>
-      <a href="/farmerdeals" class="hover:text-green-500">Deals</a>
+      <a href="/mylistings" class="hover:text-green-500">My Listings</a>
       <a href="/profile" class="hover:text-green-500">Profile</a>
 
       <div class="relative">
@@ -382,7 +382,7 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 mb-4">
-                      <p>Quantity: <%= deal.quantity %> kg</p>
+                      <p>Quantity: <%= deal.negotiatedQuantity || deal.quantity %> kg</p>
                       <p>Offered: ₹<%= deal.offeredPrice %>/kg</p>
                       <p>real price: ₹<%= deal.cropId?.price || "N/A" %>
                       </p>
@@ -424,7 +424,7 @@
                             </div>
 
                             <div class="grid grid-cols-2 gap-3 mb-4">
-                              <p>Quantity: <%= deal.quantity %> kg</p>
+                              <p>Quantity: <%= deal.negotiatedQuantity || deal.quantity %> kg</p>
                               <p>Offered: ₹<%= deal.offeredPrice %>/kg</p>
                               <p>Real Price: ₹<%= deal.cropId?.price || "N/A" %>
                               </p>
@@ -479,7 +479,7 @@
                             </div>
 
                             <div class="grid grid-cols-2 gap-3 mb-4">
-                              <p>Quantity: <%= deal.quantity %> kg</p>
+                              <p>Quantity: <%= deal.negotiatedQuantity || deal.quantity %> kg</p>
                               <p>Offered: ₹<%= deal.offeredPrice %>/kg</p>
                               <p>Real Price: ₹<%= deal.cropId?.price || "N/A" %>
                               </p>

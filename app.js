@@ -38,11 +38,11 @@ app.post("/predict-price", async (req, res) => {
            // 🔥 IMPORTANT (NOT render)
 
     } catch (err) {
-        console.log(err.response?.data || err.message);
-
+    
         res.status(500).json({
             error: err.response?.data?.detail || "ML error"
         });
+        res.render(errpage);
     }
 });
 
@@ -84,7 +84,7 @@ app.post("/editcrop/:id", isLoggedIn, isFarmer, async(req, res) => {
     try {
         const { cropName, quantity, price } = req.body;
 
-        await cropModel.findByIdAndUpdate(req.session.id, {
+        await cropModel.findByIdAndUpdate(req.params.id, {
             cropName,
             quantity,
             price,
@@ -94,7 +94,6 @@ app.post("/editcrop/:id", isLoggedIn, isFarmer, async(req, res) => {
         res.redirect("/mylistings");
 
     } catch (err) {
-        console.log(err);
         res.send("Error updating crop");
     }
 });
@@ -129,7 +128,7 @@ app.get("/cropdetails/:id", async(req, res) => {
 
 app.get("/mylistings", isLoggedIn, isFarmer, async(req, res) => {
     const crops = await cropModel.find().sort({ createdAt: -1 });
-    res.render("mylissting", { crops })
+    res.render("mylistings", { crops })
 });
 
 app.get("/makedeal/:cropId", async(req, res) => {
@@ -161,21 +160,19 @@ app.get("/farmerdeals", isLoggedIn, isFarmer, async(req, res) => {
 
 app.post("/deal/:cropId", isLoggedIn, async(req, res) => {
     try {
-        const { offeredPrice, quantity } = req.body;
+        const { offeredPrice, negotiatedQuantity } = req.body;
         const cropData = await cropModel.findById(req.params.cropId);
 
         await dealModel.create({
             cropId: cropData._id,
             offeredPrice,
-            quantity,
+            negotiatedQuantity,
             farmerId: "demoFarmer",
             buyerId: "demoBuyer",
             status: "pending"
         })
         res.redirect("/buyerdeals");
-        console.log("PRICE:", offeredPrice); // 🔥 ADD THIS
     } catch (err) {
-        console.log(err);
         res.send("Error creating deal", err);
     }
 });
@@ -197,8 +194,7 @@ app.post("/deal/direct/:cropId", isLoggedIn, isBuyer, async(req, res) => {
         res.redirect("/buyerdeals");
 
     } catch (err) {
-        console.log(err);
-        res.send("Error creating deal");
+        res.send("Error creating deal", err);
     }
 });
 
@@ -331,7 +327,6 @@ function isBuyer(req, res, next) {
 }
 
 app.get("/preview/:page", (req, res) => {
-    console.log("Previewing:", req.params.page);
 
     res.render(req.params.page, {
         deals: [],
