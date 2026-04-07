@@ -21,7 +21,7 @@ const dealSchema = new mongoose.Schema({
     },
     buyerContact: Number,
     farmerContact: Number,
-    quantity: Number,
+    negotiatedQuantity: Number,
     offeredPrice: Number,
     farmerName: String,
     dealTime: {

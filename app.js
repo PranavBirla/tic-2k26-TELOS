@@ -28,7 +28,7 @@ app.post("/predict-price", async (req, res) => {
     const { cropName } = req.body;
 
     try {
-        const response = await axios.post("https://ml-api-wkoc.onrender.com", {
+        const response = await axios.post("https://ml-api-wkoc.onrender.com/predict", {
             crop_name: cropName,
             lat: 23.2599,
             lon: 77.4126
